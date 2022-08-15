@@ -1,0 +1,21 @@
+{
+    "env": {
+        "node": true
+    },
+    "extends": [
+        "airbnb-base",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "no-underscore-dangle": "off",
+        "no-console": "off",
+        "no-plusplus": "off",
+        "no-param-reassign": "off"
+    }
+}
