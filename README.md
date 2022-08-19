@@ -9,3 +9,7 @@
 3. Pour compiler les fichiers, éxecutez `npm run build`.
 
 4. Enfin, pour démarrer le serveur, éxecutez `npm start`.
+
+## TODO
+
+- [ ] Régler un problème avec prisma. Il demande un roleId pour la création de l'utilisateur mais ce n'est pas présent dans le model.

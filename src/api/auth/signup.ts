@@ -1,10 +1,12 @@
-import { newUser, UserModel } from '@/controller/user';
+import { newUser, UserModel } from '@/controller/UserController';
+import { hashPassword } from '@/controller/AuthController';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 
-export const signup = async (req: Request, res: Response) => {
+const signup = async (req: Request, res: Response) => {
   try {
     UserModel.parse(req.body);
+    req.body.password = await hashPassword(req.body.password);
     const user: User = req.body;
     const prismaUser = await newUser(user);
     return res.status(200).send(prismaUser);
@@ -12,3 +14,5 @@ export const signup = async (req: Request, res: Response) => {
     return res.status(500).send(error);
   }
 };
+
+export default signup;

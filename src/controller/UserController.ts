@@ -6,7 +6,6 @@ const UserModel = z.object({
   password: z.string(),
   firstname: z.string(),
   lastname: z.string(),
-  role: z.string(),
 });
 
 const UserLoginModel = z.object({
@@ -30,6 +29,14 @@ const newUser = (user: User) => {
   const prismaUser = prisma.user.create({
     data: user,
   });
+
+  prismaUser
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   return prismaUser;
 };
