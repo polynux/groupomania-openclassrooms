@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon --watch src -e js,ts,json --exec 'ts-node src/index.ts'",
     "build": "tsc src/index.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "db": "prisma studio"
   },
   "keywords": [],
   "author": "",
