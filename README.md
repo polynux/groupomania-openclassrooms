@@ -12,4 +12,4 @@
 
 ## TODO
 
-- [ ] Régler un problème avec prisma. Il demande un roleId pour la création de l'utilisateur mais ce n'est pas présent dans le model.
+- [x] Régler un problème avec prisma. Il demande un roleId pour la création de l'utilisateur mais ce n'est pas présent dans le model.

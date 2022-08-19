@@ -30,14 +30,6 @@ const newUser = (user: User) => {
     data: user,
   });
 
-  prismaUser
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
   return prismaUser;
 };
 
