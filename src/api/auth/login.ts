@@ -6,19 +6,17 @@ import { User } from '@prisma/client';
 
 const login = async (req: Request, res: Response) => {
   try {
-    UserLoginModel.parse(req.body);
-    const user: User | null = await getUser(req.body.email);
+    const userInfo = UserLoginModel.parse(req.body);
+    const user: User | null = await getUser(userInfo.email);
     if (user === null) {
       return res.status(401).send('User not found');
     }
-    const isValid = await comparePassword(req.body.password, user.password);
+    const isValid = await comparePassword(userInfo.password, user.password);
     if (!isValid) {
       return res.status(401).send('Invalid password');
     }
     return res.status(200).send(user);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 };
