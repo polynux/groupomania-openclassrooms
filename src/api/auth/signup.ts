@@ -1,4 +1,5 @@
-import { newUser, UserModel } from '@/controller/UserController';
+import { newUser } from '@/controller/UserController';
+import UserModel from '@/models/UserModel';
 import { hashPassword } from '@/controller/AuthController';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
