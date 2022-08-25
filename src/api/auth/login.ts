@@ -13,7 +13,7 @@ const login = async (req: Request, res: Response) => {
     }
     const isValid = await comparePassword(userInfo.password, user.password);
     if (!isValid) {
-      return res.status(401).send('Invalid password');
+      return res.status(401).send({ error: 'Invalid password' });
     }
     return res.status(200).send(user);
   } catch (error) {
