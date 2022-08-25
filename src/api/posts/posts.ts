@@ -6,8 +6,8 @@ const posts = Router();
 
 posts.get('/', async (req, res) => {
   try {
-    const postList: Post[] = await getAllPosts();
-    return res.status(200).send(postList);
+    const postsList: Post[] = await getAllPosts();
+    return res.status(200).send(postsList);
   } catch (error) {
     res.status(500).send(error);
   }
