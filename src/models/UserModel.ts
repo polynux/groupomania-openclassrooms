@@ -1,13 +1,24 @@
 import { z } from 'zod';
+import { Post } from './PostModel';
 
-const UserModel = z.object({
-  id: z.string().optional(),
+interface User {
+  id?: number | undefined;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  role?: string | undefined;
+  posts?: Post[] | undefined;
+}
+
+const User: z.ZodType<User> = z.object({
+  id: z.number().optional(),
   email: z.string().email(),
   password: z.string(),
-  firstname: z.string(),
-  lastname: z.string(),
-  role: z.string().default('user'),
-  posts: z.array(z.string()).optional(),
+  firstName: z.string(),
+  lastName: z.string(),
+  role: z.string().optional(),
+  posts: z.array(Post).optional(),
 });
 
-export default UserModel;
+export { User };
