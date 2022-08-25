@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 interface Post {
-  id?: number | null;
+  id?: number | undefined;
   title: string;
   content?: string | undefined;
   image?: string | undefined;
