@@ -34,7 +34,6 @@ const getAllPosts = async (): Promise<PrismaPost[]> => {
 const createPost = async (post: Post): Promise<PrismaPost> => {
   const newPost = await prisma.post.create({
     data: {
-      title: post.title,
       content: post.content,
       authorId: post.authorId,
       image: post.image,
@@ -44,7 +43,7 @@ const createPost = async (post: Post): Promise<PrismaPost> => {
   return newPost;
 };
 
-const editPost = async (post: Post, userId: number): Promise<PrismaPost | null | Error> => {
+const editPost = async (post: Post): Promise<PrismaPost | null | Error> => {
   if (post.id === undefined) {
     return new Error('Post id is undefined');
   }
@@ -52,7 +51,7 @@ const editPost = async (post: Post, userId: number): Promise<PrismaPost | null |
   if (originalPost === null) {
     return null;
   }
-  if (originalPost.authorId !== userId) {
+  if (originalPost.authorId !== post.authorId) {
     return new Error('User is not the author of this post');
   }
   const editedPost = await prisma.post.update({
@@ -60,7 +59,6 @@ const editPost = async (post: Post, userId: number): Promise<PrismaPost | null |
       id: post.id,
     },
     data: {
-      title: post.title,
       content: post.content,
       image: post.image,
     },
@@ -73,4 +71,4 @@ const editPost = async (post: Post, userId: number): Promise<PrismaPost | null |
   return editedPost;
 };
 
-export { getAllPosts, createPost, editPost };
+export { getAllPosts, createPost, editPost, getPostById };
