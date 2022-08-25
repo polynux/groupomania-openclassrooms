@@ -1,18 +1,18 @@
 import { z } from 'zod';
 
 interface Post {
-  id: number;
+  id?: number | null;
   title: string;
   content?: string | undefined;
-  picture?: string | undefined;
+  image?: string | undefined;
   authorId: number;
 }
 
 const Post: z.ZodType<Post> = z.object({
-  id: z.number(),
+  id: z.number().optional(),
   title: z.string(),
   content: z.string().optional(),
-  picture: z.string().optional(),
+  image: z.string().optional(),
   authorId: z.number(),
 });
 

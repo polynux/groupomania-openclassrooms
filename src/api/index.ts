@@ -2,9 +2,9 @@ import { Router } from 'express';
 import posts from './posts';
 import auth from './auth';
 
-const router = Router();
+const api = Router();
 
-router.use('/posts', posts);
-router.use('/auth', auth);
+api.use('/posts', posts);
+api.use('/auth', auth);
 
-export default router;
+export default api;
