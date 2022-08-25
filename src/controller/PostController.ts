@@ -1,4 +1,4 @@
-import { PrismaClient, Post as PrismaPost } from '@prisma/client';
+import { PrismaClient, Post as PrismaPost, User } from '@prisma/client';
 import { Post } from '@/models/PostModel';
 
 const prisma = new PrismaClient();
@@ -71,4 +71,23 @@ const editPost = async (post: Post): Promise<PrismaPost | null | Error> => {
   return editedPost;
 };
 
-export { getAllPosts, createPost, editPost, getPostById };
+const deletePost = async (id: number, userId: number): Promise<PrismaPost | Error> => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (post === null) {
+    return new Error('Post not found');
+  }
+  if (post.authorId !== userId) {
+    return new Error('User is not the author of this post');
+  }
+  return prisma.post.delete({
+    where: {
+      id,
+    },
+  });
+};
+
+export { getAllPosts, createPost, editPost, getPostById, deletePost };
