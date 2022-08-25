@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { Post } from './PostModel';
+import { Like } from './LikeModel';
 
 interface User {
   id?: number | undefined;
@@ -9,6 +10,7 @@ interface User {
   lastName: string;
   role?: string | undefined;
   posts?: Post[] | undefined;
+  likes?: Like[] | undefined;
 }
 
 const User: z.ZodType<User> = z.object({
@@ -19,6 +21,7 @@ const User: z.ZodType<User> = z.object({
   lastName: z.string(),
   role: z.string().optional(),
   posts: z.array(Post).optional(),
+  likes: z.array(Like).optional(),
 });
 
 export { User };

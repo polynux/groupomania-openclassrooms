@@ -17,6 +17,7 @@ model User {
   password  String
   posts     Post[]
   role      Role   @default(USER)
+  likes     Like[]
 }
 
 enum Role {
@@ -32,4 +33,14 @@ model Post {
   author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  likes     Int      @default(0)
+  likedBy   Like[]
+}
+
+model Like {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

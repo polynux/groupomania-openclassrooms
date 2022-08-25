@@ -1,4 +1,4 @@
-import { PrismaClient, Post as PrismaPost, User } from '@prisma/client';
+import { PrismaClient, Post as PrismaPost, Like } from '@prisma/client';
 import { Post } from '@/models/PostModel';
 
 const prisma = new PrismaClient();
@@ -15,6 +15,9 @@ const getPostById = async (id: number): Promise<PrismaPost | null> => {
     where: {
       id,
     },
+    include: {
+      likedBy: true,
+    },
   });
   return post;
 };
@@ -23,6 +26,7 @@ const getAllPosts = async (): Promise<PrismaPost[]> => {
   const posts = prisma.post.findMany({
     include: {
       author: true,
+      likedBy: true,
     },
   });
   return (await posts).map((post) => {
@@ -90,4 +94,100 @@ const deletePost = async (id: number, userId: number): Promise<PrismaPost | Erro
   });
 };
 
-export { getAllPosts, createPost, editPost, getPostById, deletePost };
+const unlikePost = async (postId: number, userId: number): Promise<Like | Error> => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+    include: {
+      likedBy: true,
+    },
+  });
+  if (post === null) {
+    return new Error('Post not found');
+  }
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      likes: true,
+    },
+  });
+  if (user === null) {
+    return new Error('User not found');
+  }
+  const like = post.likedBy.find((likes) => likes.postId === postId && likes.userId === userId);
+  if (like === undefined) {
+    return new Error('Post not liked');
+  }
+
+  await prisma.post.update({
+    where: {
+      id: postId,
+    },
+    data: {
+      likes: {
+        decrement: 1,
+      },
+    },
+  });
+
+  return prisma.like.delete({
+    where: {
+      id: like.id,
+    },
+  });
+};
+
+const likePost = async (id: number, userId: number): Promise<PrismaPost | Error> => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      likedBy: true,
+    },
+  });
+  if (post === null) {
+    return new Error('Post not found');
+  }
+  // if (post.authorId === userId) {
+  //   return new Error('User cannot like their own post');
+  // }
+  if (post.likedBy.some((like) => like.userId === userId)) {
+    return new Error('Post already liked');
+  }
+  const newLike = await prisma.like.create({
+    data: {
+      post: {
+        connect: {
+          id,
+        },
+      },
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+  });
+
+  return prisma.post.update({
+    where: {
+      id,
+    },
+    data: {
+      likedBy: {
+        connect: {
+          id: newLike.id,
+        },
+      },
+      likes: {
+        increment: 1,
+      },
+    },
+  });
+};
+
+export { getAllPosts, createPost, editPost, getPostById, deletePost, likePost, unlikePost };
