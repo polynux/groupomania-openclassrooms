@@ -1,6 +1,6 @@
-import getPosts from './posts';
-import postPost from './new';
-import putPost from './edit';
+import getPosts from './getPosts';
+import postPost from './newPost';
+import putPost from './editPost';
 import { Router } from 'express';
 
 const posts = Router();
