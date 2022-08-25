@@ -3,12 +3,12 @@ import { Post } from '@/models/PostModel';
 
 const prisma = new PrismaClient();
 
-function exclude<User, Key extends keyof User>(user: User, ...keys: Key[]): User {
+const exclude = <User, Key extends keyof User>(user: User, ...keys: Key[]): User => {
   for (let key of keys) {
     delete user[key];
   }
   return user;
-}
+};
 
 const getAllPosts = async (): Promise<PrismaPost[]> => {
   const posts = prisma.post.findMany({
