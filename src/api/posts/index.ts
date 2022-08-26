@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import getPosts from './getPosts';
-import postPost from './newPost';
+import newPost from './newPost';
 import putPost from './editPost';
 import deletePost from './deletePost';
 import likePost from './likePost';
@@ -32,7 +32,7 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
 posts.use(checkAuth);
 
 posts.get('/', getPosts);
-posts.post('/new', postPost);
+posts.post('/new', newPost);
 posts.put('/edit/:id', putPost);
 posts.delete('/delete/:id', deletePost);
 posts.put('/like/:id', likePost);

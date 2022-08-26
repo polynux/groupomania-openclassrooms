@@ -37,7 +37,7 @@ const checkExpiredTokenTimer = ms(process.env.CHECK_EXPIRED_TOKEN_EVERY || '60s'
 
 const app = express();
 app.use(cors());
-app.use(urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true, limit: '50mb' }));
 app.use(json());
 
 app.use('/api', api);
