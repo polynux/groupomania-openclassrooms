@@ -1,9 +1,15 @@
 import express, { urlencoded, json } from 'express';
 import cors from 'cors';
 import api from '@/api';
-import { config } from 'dotenv';
+import { config as envConfig } from 'dotenv';
 
-config();
+envConfig();
+
+interface Config {
+  [key: string]: string;
+}
+
+let config: Config = {};
 
 const checkEnvVars = () => {
   const requiredEnvVars = ['PORT', 'DB_URL', 'JWT_SECRET', 'JWT_EXPIRES_IN'];
@@ -12,6 +18,8 @@ const checkEnvVars = () => {
     if (process.env[envVar] === undefined) {
       error = true;
       console.log(`${envVar} is undefined`);
+    } else {
+      config[envVar] = process.env[envVar] as string;
     }
   });
   if (error) {
@@ -20,6 +28,7 @@ const checkEnvVars = () => {
 };
 
 checkEnvVars();
+export { config };
 
 const port = process.env.PORT || 5000;
 

@@ -1,6 +1,6 @@
 import { getUser } from '@/controller/UserController';
 import UserLoginModel from '@/models/UserLoginModel';
-import { comparePassword } from '@/controller/AuthController';
+import { comparePassword, genToken } from '@/controller/AuthController';
 import { Request, Response } from 'express';
 import { User } from '@prisma/client';
 
@@ -15,7 +15,8 @@ const login = async (req: Request, res: Response) => {
     if (!isValid) {
       return res.status(401).send({ error: 'Invalid password' });
     }
-    return res.status(200).send(user);
+    const token = genToken(user.id);
+    return res.status(200).send({ token, userId: user.id });
   } catch (error) {
     return res.status(500).send(error);
   }

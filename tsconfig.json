@@ -2,7 +2,6 @@
     "compilerOptions": {
         "baseUrl": ".",
         "target": "es2017",
-        "module": "CommonJS",
         "lib": [
             "esnext"
         ],
@@ -23,7 +22,10 @@
             "@@/*": [
                 "./*"
             ]
-        }
+        },
+        "typeRoots": [
+            "src/types"
+        ],
     },
     "ts-node": {
         "require": [
