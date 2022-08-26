@@ -3,6 +3,7 @@ import cors from 'cors';
 import api from '@/api';
 import { config as envConfig } from 'dotenv';
 import { deleteExpiredTokens } from '@/controller/AuthController';
+import ms from 'ms';
 
 envConfig();
 
@@ -32,6 +33,7 @@ checkEnvVars();
 export { config };
 
 const port = process.env.PORT || 5000;
+const checkExpiredTokenTimer = ms(process.env.CHECK_EXPIRED_TOKEN_EVERY || '60s');
 
 const app = express();
 app.use(cors());
@@ -52,4 +54,4 @@ setInterval(() => {
     .catch((error) => {
       console.log(error);
     });
-}, 60 * 1000); // 60 seconds
+}, checkExpiredTokenTimer); // 60 seconds
