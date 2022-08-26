@@ -2,7 +2,10 @@ import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { promisify } from 'util';
 import { config } from '..';
-import { Token } from '@/models/TokenModel';
+import { PrismaClient } from '@prisma/client';
+import ms from 'ms';
+
+const prisma = new PrismaClient();
 
 const saltRounds = 10;
 const hashPromise = promisify(bcrypt.hash);
@@ -15,13 +18,21 @@ const comparePassword = (password: string, hash: string) => {
   return bcrypt.compare(password, hash);
 };
 
-const genToken = (id: number) => {
-  return jwt.sign({ id }, config.JWT_SECRET, {
+const genToken = (userId: number) => {
+  const newToken = jwt.sign({ id: userId }, config.JWT_SECRET, {
     expiresIn: config.JWT_EXPIRES_IN,
+  });
+
+  return prisma.token.create({
+    data: {
+      userId,
+      token: newToken,
+      expiresAt: new Date(Date.now() + ms(config.JWT_EXPIRES_IN)), // 30 days
+    },
   });
 };
 
-const verifyToken = (token: string): Promise<Token> => {
+const verifyToken = (token: string): Promise<number> => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.JWT_SECRET, (err?, decoded?: jwt.JwtPayload | string) => {
       if (err) {
@@ -29,7 +40,7 @@ const verifyToken = (token: string): Promise<Token> => {
       } else if (decoded === undefined || typeof decoded === 'string' || decoded.id === undefined) {
         reject('Invalid token');
       } else {
-        const decodedToken: Token = { id: decoded.id };
+        const decodedToken: number = decoded.id;
         resolve(decodedToken);
       }
     });

@@ -15,8 +15,8 @@ const login = async (req: Request, res: Response) => {
     if (!isValid) {
       return res.status(401).send({ error: 'Invalid password' });
     }
-    const token = genToken(user.id);
-    return res.status(200).send({ token, userId: user.id });
+    const token = await genToken(user.id);
+    return res.status(200).send({ token: token.token, userId: user.id, expiresAt: token.expiresAt });
   } catch (error) {
     return res.status(500).send(error);
   }

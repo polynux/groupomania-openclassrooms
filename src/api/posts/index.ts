@@ -6,7 +6,6 @@ import deletePost from './deletePost';
 import likePost from './likePost';
 import unlikePost from './unlikePost';
 import { verifyToken } from '@/controller/AuthController';
-import { Token } from '@/models/TokenModel';
 
 const posts = Router();
 
@@ -21,8 +20,8 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).send('No token provided');
   }
   return verifyToken(token)
-    .then((decodedToken: Token) => {
-      req.userId = decodedToken.id;
+    .then((decodedToken: number) => {
+      req.userId = decodedToken;
       next();
     })
     .catch(() => {
