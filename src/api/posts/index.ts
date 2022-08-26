@@ -24,8 +24,8 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
       req.userId = decodedToken;
       next();
     })
-    .catch(() => {
-      return res.status(401).send('Invalid token');
+    .catch((error) => {
+      return res.status(401).send(error);
     });
 };
 

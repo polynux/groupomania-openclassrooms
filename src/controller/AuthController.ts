@@ -32,7 +32,13 @@ const genToken = (userId: number) => {
   });
 };
 
-const verifyToken = (token: string): Promise<number> => {
+const verifyToken = async (token: string): Promise<number> => {
+  const prismaToken = await prisma.token.findUnique({
+    where: { token },
+  });
+  if (prismaToken === null) {
+    throw 'Token not found';
+  }
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.JWT_SECRET, (err?, decoded?: jwt.JwtPayload | string) => {
       if (err) {
