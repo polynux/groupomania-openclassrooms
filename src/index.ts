@@ -2,6 +2,7 @@ import express, { urlencoded, json } from 'express';
 import cors from 'cors';
 import api from '@/api';
 import { config as envConfig } from 'dotenv';
+import { deleteExpiredTokens } from '@/controller/AuthController';
 
 envConfig();
 
@@ -42,3 +43,13 @@ app.use('/api', api);
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+setInterval(() => {
+  deleteExpiredTokens()
+    .then((e) => {
+      console.log(`Deleted ${e.count} expired tokens`);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}, 60 * 1000); // 60 seconds

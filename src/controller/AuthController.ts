@@ -53,4 +53,20 @@ const verifyToken = async (token: string): Promise<number> => {
   });
 };
 
-export { hashPassword, comparePassword, genToken, verifyToken };
+const deleteToken = (token: string) => {
+  return prisma.token.delete({
+    where: { token },
+  });
+};
+
+const deleteExpiredTokens = () => {
+  return prisma.token.deleteMany({
+    where: {
+      expiresAt: {
+        lte: new Date(Date.now()),
+      },
+    },
+  });
+};
+
+export { hashPassword, comparePassword, genToken, verifyToken, deleteToken, deleteExpiredTokens };
