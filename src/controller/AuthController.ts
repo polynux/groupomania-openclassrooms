@@ -32,20 +32,20 @@ const genToken = (userId: number) => {
   });
 };
 
-const verifyToken = async (token: string): Promise<number> => {
-  const prismaToken = await prisma.token.findUnique({
-    where: { token },
-  });
-  if (prismaToken === null) {
-    throw 'Token not found';
-  }
+const verifyToken = (token: string): Promise<number> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, config.JWT_SECRET, (err?, decoded?: jwt.JwtPayload | string) => {
+    jwt.verify(token, config.JWT_SECRET, async (err?, decoded?: jwt.JwtPayload | string) => {
       if (err) {
-        reject(err);
+        reject('Unkown error');
       } else if (decoded === undefined || typeof decoded === 'string' || decoded.id === undefined) {
         reject('Invalid token');
       } else {
+        const prismaToken = await prisma.token.findUnique({
+          where: { token },
+        });
+        if (prismaToken === null) {
+          throw 'Token not found';
+        }
         const decodedToken: number = decoded.id;
         resolve(decodedToken);
       }
