@@ -1,8 +1,23 @@
 import { Link } from 'react-router-dom';
-
 import logo from '@assets/images/logo.svg';
+import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default () => {
+  // Access the client
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(formData => {
+    return fetch('/api/auth/login', {
+      method: 'POST',
+      body: formData,
+    });
+  })
+  const onSubmit = event => {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    mutation.mutate({email: formData.get('email'), password: formData.get('password')})
+  }
+
   return (
     <>
       <div className="flex flex-col min-h-full items-center justify-center py-12 px-4 bg-grey-dark sm:px-6 lg:px-8">
@@ -10,14 +25,14 @@ export default () => {
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
         </div>
         <div className="w-full max-w-md bg-grey rounded-lg p-5">
-          <form className="m-6 mb-3" action="#" method="POST">
+          <form className="m-6 mb-3" action="#" method="POST" onSubmit={onSubmit}>
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
-                <label htmlFor="email-address" className="sr-only">
+                <label htmlFor="email" className="sr-only">
                   Adresse e-mail
                 </label>
                 <input
-                  id="email-address"
+                  id="email"
                   name="email"
                   type="email"
                   autoComplete="email"
