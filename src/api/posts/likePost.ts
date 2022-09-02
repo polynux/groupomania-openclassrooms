@@ -4,8 +4,7 @@ import { Request, Response } from 'express';
 export default async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const userId = 1; // hardcoded for now, use userId from token
-    const likedPost = await likePost(id, userId);
+    const likedPost = await likePost(id, req.userId);
     if (likedPost instanceof Error) {
       return res.status(403).send(likedPost.message);
     }

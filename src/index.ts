@@ -4,6 +4,7 @@ import api from '@/api';
 import { config as envConfig } from 'dotenv';
 import { deleteExpiredTokens } from '@/controller/AuthController';
 import ms from 'ms';
+import path from 'path';
 
 envConfig();
 
@@ -39,6 +40,8 @@ const app = express();
 app.use(cors());
 app.use(json({ limit: '50mb' }));
 app.use(urlencoded({ extended: true, limit: '50mb' }));
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/api', api);
 
