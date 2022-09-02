@@ -1,21 +1,40 @@
 import { Link } from 'react-router-dom';
 import logo from '@assets/images/logo.svg';
-import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export default () => {
-  // Access the client
-  const queryClient = useQueryClient();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const mutation = useMutation(formData => {
-    return fetch('/api/auth/login', {
-      method: 'POST',
-      body: formData,
-    });
-  })
-  const onSubmit = event => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    mutation.mutate({email: formData.get('email'), password: formData.get('password')})
+  const { refetch } = useQuery(
+    ['login'],
+    async () => {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.json();
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+      enabled: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await refetch();
   }
 
   return (
@@ -25,7 +44,7 @@ export default () => {
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
         </div>
         <div className="w-full max-w-md bg-grey rounded-lg p-5">
-          <form className="m-6 mb-3" action="#" method="POST" onSubmit={onSubmit}>
+          <form className="m-6 mb-3" action="#" method="POST" onSubmit={(e) => onSubmit(e)}>
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="email" className="sr-only">
@@ -39,6 +58,8 @@ export default () => {
                   required
                   className="relative block w-full appearance-none rounded-lg border px-3 py-2 my-2 placeholder-grey-light focus:z-10 focus:border-red focus:outline-none focus:ring-red sm:text-sm"
                   placeholder="Adresse e-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
@@ -53,6 +74,8 @@ export default () => {
                   required
                   className="relative block w-full appearance-none rounded-lg border px-3 py-2 my-2 placeholder-grey-light focus:z-10 focus:border-red focus:outline-none focus:ring-red sm:text-sm"
                   placeholder="Mot de passe"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
