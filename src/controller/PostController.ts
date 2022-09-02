@@ -31,6 +31,7 @@ const getAllPosts = async (): Promise<PrismaPost[]> => {
   });
   return (await posts).map((post) => {
     post.author = exclude(post.author, 'password');
+    post.image = post.image ? `/uploads/${post.image}` : null;
     return post;
   });
 };
@@ -43,6 +44,7 @@ const createPost = async (post: Post): Promise<PrismaPost> => {
       image: post.image,
     },
   });
+  newPost.image = newPost.image ? `/uploads/${newPost.image}` : null;
 
   return newPost;
 };
@@ -71,6 +73,8 @@ const editPost = async (post: Post): Promise<PrismaPost | null | Error> => {
   if (!editedPost) {
     return null;
   }
+
+  editedPost.image = editedPost.image ? `/uploads/${editedPost.image}` : null;
 
   return editedPost;
 };
