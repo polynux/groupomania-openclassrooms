@@ -7,6 +7,8 @@ export default () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const queryClient = useQueryClient();
+
   const { refetch } = useQuery(
     ['login'],
     async () => {
@@ -37,12 +39,28 @@ export default () => {
     await refetch();
   }
 
+  type Token = {
+    token: string;
+    userId: string;
+    expiresAt: string;
+  };
+
+  const useLogin = () => {
+    const token: Token | undefined = queryClient.getQueryData(['login'], { exact: true });
+    if (!token) {
+      alert('You are not logged in');
+      return;
+    }
+    alert(token.token);
+  }
+
   return (
     <>
       <div className="flex flex-col min-h-full items-center justify-center py-12 px-4 bg-grey-dark sm:px-6 lg:px-8">
         <div>
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
         </div>
+        <button className='rounded-lg bg-red text-white' onClick={() => useLogin()}>Test</button>
         <div className="w-full max-w-md bg-grey rounded-lg p-5">
           <form className="m-6 mb-3" action="#" method="POST" onSubmit={(e) => onSubmit(e)}>
             <div className="-space-y-px rounded-md shadow-sm">
