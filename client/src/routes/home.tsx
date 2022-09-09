@@ -1,5 +1,6 @@
 import { useCookies } from "react-cookie";
 import { Navigate } from "react-router-dom";
+import AppHeader from "@components/AppHeader";
 
 const Home = () => {
   const [cookie, setCookie] = useCookies(["token"]);
@@ -9,9 +10,9 @@ const Home = () => {
   }
   
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <>
+      <AppHeader />
+    </>
   );
 }
 

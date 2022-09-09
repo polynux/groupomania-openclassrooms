@@ -3,6 +3,7 @@ import logo from '@assets/images/logo.svg';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import type { Token } from '../types';
 
 const Login = () => {
   const [cookie, setCookie] = useCookies(['token']);
@@ -23,7 +24,7 @@ const Login = () => {
       return response.json();
     },
     {
-      onSuccess: (data) => {
+      onSuccess: (data: Token) => {
         setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
         return <Navigate to="/home" />;
       },
