@@ -1,9 +1,8 @@
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 const checkAuth = () => {
-  const [cookie, setCookie] = useCookies(['token']);
-
-  if (cookie.token && cookie.token !== '') {
+  const token = new Cookies().get("token");
+  if (token && token !== '') {
     return true;
   }
   return false;

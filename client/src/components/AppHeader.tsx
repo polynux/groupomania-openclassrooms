@@ -1,7 +1,8 @@
 import logo from '@assets/images/logo.svg';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { Cookies, withCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const getMeInfo = async () => {
   const token = new Cookies().get('token');
@@ -16,8 +17,6 @@ const getMeInfo = async () => {
   return response.json();
 };
 
-
-
 const AppHeader = () => {
   const meInfo = useQuery(['me'], getMeInfo, {
     onSuccess: (data) => {
@@ -27,6 +26,11 @@ const AppHeader = () => {
       console.error(error);
     },
   });
+
+  const logOut = async () => {
+    new Cookies().remove('token');
+    window.location.reload();
+  };
 
   return (
     <div className="min-h-80 flex items-center justify-between bg-grey-dark p-2">
@@ -43,7 +47,9 @@ const AppHeader = () => {
               {meInfo.isLoading ? '' : meInfo.data ? meInfo.data.firstName + ' ' + meInfo.data.lastName : ''}
             </span>
           </div>
-          <button className="group relative flex w-auto justify-center rounded-md border border-red bg-red py-2 px-2 text-sm font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"
+          <button
+            className="group relative flex w-auto justify-center rounded-md border border-red bg-red py-2 px-2 text-sm font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"
+            onClick={() => logOut()}
           >
             Deonnexion
           </button>
