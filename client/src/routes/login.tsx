@@ -1,16 +1,13 @@
 import { Link, Navigate } from 'react-router-dom';
 import logo from '@assets/images/logo.svg';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import ms from 'ms';
 
 const Login = () => {
+  const [cookie, setCookie] = useCookies(['token']);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [cookie, setCookie] = useCookies(['token']);
-
-  const queryClient = useQueryClient();
 
   const { refetch } = useQuery(
     ['login'],
@@ -27,7 +24,8 @@ const Login = () => {
     },
     {
       onSuccess: (data) => {
-        setCookie('token', data.token, { path: '/', expires: new Date(Date.now() + ms('1d')) });
+        setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
+        return <Navigate to="/home" />;
       },
       onError: (error) => {
         console.error(error);
@@ -44,7 +42,7 @@ const Login = () => {
 
   return (
     <>
-      {cookie.token ? <Navigate to="/home" /> : null}
+      {cookie.token && <Navigate to="/home" />}
       <div className="flex flex-col min-h-full items-center justify-center py-12 px-4 bg-grey-dark sm:px-6 lg:px-8">
         <div>
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
