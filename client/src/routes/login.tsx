@@ -4,12 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import type { Token } from '../types';
-import { checkAuth } from '../controllers/Auth';
 
 const Login = () => {
-  if (checkAuth()) {
-    return <Navigate to="/home" />;
-  }
   const [cookie, setCookie] = useCookies(['token']);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +26,7 @@ const Login = () => {
     {
       onSuccess: (data: Token) => {
         setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
-        return <Navigate to="/home" />;
+        return <Navigate to="/" />;
       },
       onError: (error) => {
         console.error(error);

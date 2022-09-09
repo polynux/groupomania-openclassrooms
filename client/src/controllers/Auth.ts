@@ -1,5 +1,4 @@
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 
 const checkAuth = () => {
   const [cookie, setCookie] = useCookies(['token']);
