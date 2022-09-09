@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import logo from '@assets/images/logo.svg';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import ms from 'ms';
 
-export default () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [cookie, setCookie] = useCookies(['token']);
 
   const queryClient = useQueryClient();
 
@@ -24,10 +27,10 @@ export default () => {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
+        setCookie('token', data.token, { path: '/', expires: new Date(Date.now() + ms('1d')) });
       },
       onError: (error) => {
-        console.log(error);
+        console.error(error);
       },
       enabled: false,
       refetchOnWindowFocus: false,
@@ -37,30 +40,15 @@ export default () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await refetch();
-  }
-
-  type Token = {
-    token: string;
-    userId: string;
-    expiresAt: string;
   };
-
-  const useLogin = () => {
-    const token: Token | undefined = queryClient.getQueryData(['login'], { exact: true });
-    if (!token) {
-      alert('You are not logged in');
-      return;
-    }
-    alert(token.token);
-  }
 
   return (
     <>
+      {cookie.token ? <Navigate to="/home" /> : null}
       <div className="flex flex-col min-h-full items-center justify-center py-12 px-4 bg-grey-dark sm:px-6 lg:px-8">
         <div>
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
         </div>
-        <button className='rounded-lg bg-red text-white' onClick={() => useLogin()}>Test</button>
         <div className="w-full max-w-md bg-grey rounded-lg p-5">
           <form className="m-6 mb-3" action="#" method="POST" onSubmit={(e) => onSubmit(e)}>
             <div className="-space-y-px rounded-md shadow-sm">
@@ -116,3 +104,5 @@ export default () => {
     </>
   );
 };
+
+export default Login;
