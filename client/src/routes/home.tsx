@@ -1,14 +1,11 @@
-import { useCookies } from "react-cookie";
-import { Navigate } from "react-router-dom";
 import AppHeader from "@components/AppHeader";
+import { Navigate } from "react-router-dom";
+import { checkAuth } from "../controllers/Auth";
 
 const Home = () => {
-  const [cookie, setCookie] = useCookies(["token"]);
-
-  if (!cookie.token) {
+  if (!checkAuth()) {
     return <Navigate to="/login" />;
   }
-  
   return (
     <>
       <AppHeader />

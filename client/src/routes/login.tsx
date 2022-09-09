@@ -4,8 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import type { Token } from '../types';
+import { checkAuth } from '../controllers/Auth';
 
 const Login = () => {
+  if (checkAuth()) {
+    return <Navigate to="/home" />;
+  }
   const [cookie, setCookie] = useCookies(['token']);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +47,6 @@ const Login = () => {
 
   return (
     <>
-      {cookie.token && <Navigate to="/home" />}
       <div className="flex flex-col min-h-full items-center justify-center py-12 px-4 bg-grey-dark sm:px-6 lg:px-8">
         <div>
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
