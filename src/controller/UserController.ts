@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { User } from '@/models/UserModel';
+import { exclude } from '@/lib/utils';
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,18 @@ const getUser = (email: string) => {
   });
 
   return user;
+};
+
+const getUserById = async (id: number) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (user) {
+    return exclude(user, 'password');
+  }
 };
 
 const isUserExist = (email: string) =>
@@ -48,4 +61,4 @@ const newUser = async (user: User) => {
   return newUser;
 };
 
-export { getUser, newUser };
+export { getUser, newUser, isUserExist, getUserById };

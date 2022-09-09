@@ -1,14 +1,8 @@
 import { PrismaClient, Post as PrismaPost, Like } from '@prisma/client';
 import { Post } from '@/models/PostModel';
+import { exclude } from '@/lib/utils';
 
 const prisma = new PrismaClient();
-
-const exclude = <User, Key extends keyof User>(user: User, ...keys: Key[]): User => {
-  for (let key of keys) {
-    delete user[key];
-  }
-  return user;
-};
 
 const getPostById = async (id: number): Promise<PrismaPost | null> => {
   const post = await prisma.post.findUnique({

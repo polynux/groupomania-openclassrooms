@@ -35,9 +35,7 @@ const genToken = (userId: number) => {
 const verifyToken = (token: string): Promise<number> => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.JWT_SECRET, async (err?, decoded?: jwt.JwtPayload | string) => {
-      if (err) {
-        reject('Unkown error');
-      } else if (decoded === undefined || typeof decoded === 'string' || decoded.id === undefined) {
+      if (err || decoded === undefined || typeof decoded === 'string' || decoded.id === undefined) {
         reject('Invalid token');
       } else {
         const prismaToken = await prisma.token.findUnique({
