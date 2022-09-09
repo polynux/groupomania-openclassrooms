@@ -13,3 +13,4 @@
 ## TODO
 
 - [x] Régler un problème avec prisma. Il demande un roleId pour la création de l'utilisateur mais ce n'est pas présent dans le model.
+- [ ] Utiliser NeutralinoJS pour faire une application desktop
