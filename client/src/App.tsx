@@ -2,8 +2,7 @@ import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Login from './routes/login';
 import Home from './routes/home';
-import { ProvideAuth } from './controllers/Auth';
-import { Cookies, CookiesProvider, useCookies } from 'react-cookie';
+import { CookiesProvider, useCookies } from 'react-cookie';
 import Signup from './routes/signup';
 import { useEffect, useState } from 'react';
 

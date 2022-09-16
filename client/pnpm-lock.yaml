@@ -11,6 +11,7 @@ specifiers:
   react: ^18.2.0
   react-cookie: ^4.1.1
   react-dom: ^18.2.0
+  react-icons: ^4.4.0
   react-router-dom: ^6.3.0
   sass: ^1.54.8
   tailwindcss: ^3.1.8
@@ -23,6 +24,7 @@ dependencies:
   react: 18.2.0
   react-cookie: 4.1.1_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-icons: 4.4.0_react@18.2.0
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
 
 devDependencies:
@@ -32,7 +34,7 @@ devDependencies:
   autoprefixer: 10.4.8_postcss@8.4.16
   postcss: 8.4.16
   sass: 1.54.8
-  tailwindcss: 3.1.8
+  tailwindcss: 3.1.8_postcss@8.4.16
   typescript: 4.7.4
   vite: 3.0.7_sass@1.54.8
 
@@ -1180,6 +1182,14 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-icons/4.4.0_react@18.2.0:
+    resolution: {integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -1308,10 +1318,12 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /tailwindcss/3.1.8:
+  /tailwindcss/3.1.8_postcss@8.4.16:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3

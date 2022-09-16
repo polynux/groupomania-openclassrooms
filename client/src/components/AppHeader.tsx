@@ -35,10 +35,10 @@ const AppHeader = () => {
   };
 
   return (
-    <>
+    <header>
       <div className="min-h-80 flex items-center justify-between bg-grey-dark p-2">
         <div className="app-header__logo">
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" className='h-14'/>
         </div>
         <div className="right">
           <div className="flex items-center space-x-6">
@@ -59,7 +59,7 @@ const AppHeader = () => {
           </div>
         </div>
       </div>
-    </>
+    </header>
   );
 };
 
