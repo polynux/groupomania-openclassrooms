@@ -34,16 +34,14 @@ const AppHeader = () => {
   };
 
   return (
-    <header>
+    <header className="sticky top-0">
       <div className="min-h-80 flex items-center justify-between bg-grey-dark p-2">
         <div className="app-header__logo">
-          <img src={logo} alt="logo" className='h-14'/>
+          <img src={logo} alt="logo" className="h-14" />
         </div>
         <div className="right">
           <div className="flex items-center space-x-6">
-            <div className="rounded-full w-24 overflow-hidden">
-              {meInfo.data && <Avatar user={meInfo.data} />}
-            </div>
+            {meInfo.data && <Avatar user={meInfo.data} />}
             <div className="app-header__user__name">
               <span className="text-white">
                 {meInfo.isLoading ? '' : meInfo.data ? meInfo.data.firstName + ' ' + meInfo.data.lastName : ''}

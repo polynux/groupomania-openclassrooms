@@ -1,8 +1,7 @@
 import { FaEllipsisH } from 'react-icons/fa';
 import Avatar from '@components/Avatar';
 
-const Message = ({ text, user, date }: any) => {
-
+const Message = ({ text, user, date, image = '' }: any) => {
   return (
     <>
       <div className="flex bg-grey-dark rounded-xl max-w-3xl p-5 gap-5">
@@ -12,11 +11,18 @@ const Message = ({ text, user, date }: any) => {
             <div className="text-red-light text-xl username">
               {user.firstName} {user.lastName}
             </div>
-            <div className="text-grey-light popup-btn text-2xl">
-              <FaEllipsisH />
+            <div className="text-grey popup-btn text-2xl">
+              <FaEllipsisH className="fill-grey-light" />
             </div>
           </div>
           <div className="text-white message">{text}</div>
+          {image === '' ? (
+            ''
+          ) : (
+            <div className="flex justify-center">
+              <img src={image} alt="image" className="w-full" />
+            </div>
+          )}
           <div className="text-grey-light date">{date}</div>
         </div>
       </div>
