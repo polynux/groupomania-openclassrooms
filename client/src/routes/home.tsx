@@ -5,6 +5,7 @@ const Home = () => {
   const user = {
     firstName: "Guillaume",
     lastName: "Dorce",
+    email: "guillaume.dorce@bm-services.com",
   };
 
   return (

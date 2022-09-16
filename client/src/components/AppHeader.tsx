@@ -1,8 +1,7 @@
 import logo from '@assets/images/logo.svg';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { Cookies, withCookies, useCookies } from 'react-cookie';
-import { Navigate } from 'react-router-dom';
+import Avatar from '@components/Avatar';
 
 const getMeInfo = async () => {
   const token = new Cookies().get('token');
@@ -43,7 +42,7 @@ const AppHeader = () => {
         <div className="right">
           <div className="flex items-center space-x-6">
             <div className="rounded-full w-24 overflow-hidden">
-              <img src="https://randomuser.me/api/portraits/women/72.jpg" alt="avatar" />
+              {meInfo.data && <Avatar user={meInfo.data} />}
             </div>
             <div className="app-header__user__name">
               <span className="text-white">
