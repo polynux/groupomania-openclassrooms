@@ -12,7 +12,13 @@ module.exports = {
         'grey-light': '#717695',
         'grey-dark': '#2E3144',
       },
+      zIndex: {
+        '100': '100',
+      },
+      padding: {
+        '2.5': '0.625rem',
+      },
     },
   },
   plugins: [],
-};
+}

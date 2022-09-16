@@ -29,6 +29,11 @@ const Home = () => {
           date="14 août 2022 19:00"
           image="https://picsum.photos/800/600"
         />
+        <Message
+          user={user}
+          date="14 août 2022 19:00"
+          image="https://picsum.photos/1200/800"
+        />
       </main>
     </div>
   );

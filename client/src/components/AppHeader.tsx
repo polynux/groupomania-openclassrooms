@@ -34,7 +34,7 @@ const AppHeader = () => {
   };
 
   return (
-    <header className="sticky top-0">
+    <header className="sticky top-0 z-100">
       <div className="min-h-80 flex items-center justify-between bg-grey-dark p-2">
         <div className="app-header__logo">
           <img src={logo} alt="logo" className="h-14" />
