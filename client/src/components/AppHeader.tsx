@@ -27,10 +27,8 @@ const AppHeader = () => {
   });
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
-  const logOut = async () => {
-    console.log(cookies);
+  const logOut = () => {
     removeCookie('token');
-    window.location.href = '/login';
   };
 
   return (
@@ -51,7 +49,7 @@ const AppHeader = () => {
               className="group relative flex w-auto justify-center rounded-md border border-red bg-red py-2 px-2 text-sm font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"
               onClick={() => logOut()}
             >
-              Deonnexion
+              Deconnexion
             </button>
           </div>
         </div>

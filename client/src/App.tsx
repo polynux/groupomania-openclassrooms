@@ -4,28 +4,38 @@ import Login from './routes/login';
 import Home from './routes/home';
 import { CookiesProvider, useCookies } from 'react-cookie';
 import Signup from './routes/signup';
-import { useEffect, useState } from 'react';
 
 // Create a client
 const queryClient = new QueryClient();
 
-export default () => {
-  const [auth, setAuth] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  useEffect(() => {
-    if (cookies.token) {
-      setAuth(true);
-    }
-  }, [cookies.token]);
+const Auth = ({route}: {route: string}) => {
+  const [cookies] = useCookies(['token']);
 
+  if (cookies.token && route === 'login') {
+    return <Navigate to="/home" />;
+  } else if (!cookies.token && route === 'home') {
+    return <Navigate to="/login" />;
+  } else if (cookies.token && route === 'signup') {
+    return <Navigate to="/home" />;
+  } else if (cookies.token && route === 'home') {
+    return <Home/>;
+  } else if (!cookies.token && route === 'login') {
+    return <Login/>;
+  } else if (!cookies.token && route === 'signup') {
+    return <Signup/>;
+  }
+  return <Navigate to="/login" />;
+};
+
+export default () => {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <CookiesProvider>
             <Routes>
-              <Route path="/login" element={auth ? <Navigate to="/home" /> : <Login />} />
-              <Route path="/signup" element={auth ? <Navigate to="/home" /> : <Signup />} />
-              <Route path="/home" element={!auth ? <Navigate to="/login" /> : <Home />} />
+              <Route path="/login" element={<Auth route="login"/>} />
+              <Route path="/signup" element={<Auth route="signup"/>} />
+              <Route path="/home" element={<Auth route="home"/>} />
             </Routes>
             <Outlet />
         </CookiesProvider>

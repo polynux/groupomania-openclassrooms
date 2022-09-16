@@ -1,15 +1,14 @@
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '@assets/images/logo.svg';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import type { Token } from '../types';
-import { useAuth } from '../controllers/Auth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(['token']);
   
   const { refetch } = useQuery(
     ['login'],
@@ -26,9 +25,7 @@ const Login = () => {
     },
     {
       onSuccess: (data: Token) => {
-        console.log(data);
         setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
-        window.location.href = '/home';
       },
       onError: (error) => {
         console.error(error);
