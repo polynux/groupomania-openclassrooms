@@ -1,11 +1,40 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { Cookies } from 'react-cookie';
+
+const sendMessage = async (message: string) => {
+  const token = new Cookies().get('token');
+  const response = await fetch('/api/posts/new', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ content: message }),
+  });
+  return response.json();
+};
+
+
 
 const NewMessage = () => {
   const [message, setMessage] = useState('');
+  const queryClient = useQueryClient();
+
+  const { mutate: send } = useMutation(sendMessage, {
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries(['messages']);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    send(message);
     setMessage('');
   };
 
