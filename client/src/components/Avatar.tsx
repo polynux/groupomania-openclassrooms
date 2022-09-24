@@ -13,7 +13,7 @@ const Avatar = ({ user }: any) => {
     }
   });
 
-  return <img src={avatar} alt="avatar" className='rounded-full w-16 h-16 cursor-pointer' />;
+  return <div className='avatar'><img src={avatar} alt="avatar" className='rounded-full w-16 h-16 cursor-pointer' /></div>;
 };
 
 export default Avatar;

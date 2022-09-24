@@ -1,25 +1,34 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Cookies } from 'react-cookie';
+import { FaPlus } from 'react-icons/fa';
 
-const sendMessage = async (message: string) => {
+const sendMessage = async (data: FormData) => {
   const token = new Cookies().get('token');
+  let contentType = 'application/json';
+  let body: FormData | string | undefined = undefined;
+  console.log(data.get('image'));
+  
+  if (data.get('image')?.name !== "") {
+    contentType = 'multipart/form-data';
+    body = data;
+  } else {
+    body = JSON.stringify(data);
+  }
   const response = await fetch('/api/posts/new', {
     method: 'POST',
     mode: 'cors',
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ content: message }),
+    body,
   });
   return response.json();
 };
 
-
-
 const NewMessage = () => {
   const [message, setMessage] = useState('');
+  const [image, setImage] = useState('');
   const queryClient = useQueryClient();
 
   const { mutate: send } = useMutation(sendMessage, {
@@ -34,19 +43,32 @@ const NewMessage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    send(message);
+    const data = new FormData(e.target as HTMLFormElement);
+    send(data);
     setMessage('');
+    setImage('');
   };
 
   return (
     <footer className="new-message bg-grey-dark rounded-xl w-full max-w-3xl p-3 gap-5 shadow-md shadow-grey-dark -mt-2">
       <form onSubmit={handleSubmit} className="flex gap-2">
+        <div className="file">
+          <label htmlFor="image" className="cursor-pointer block p-2">
+            <div className="rounded-full text-grey-dark bg-red-light text-lg p-2">
+              <FaPlus className="" />
+            </div>
+          </label>
+          <input type="file" name="image" id="image" accept="image/*" className="hidden" value={image} onChange={e => setImage(e.target.value)} />
+        </div>
+
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Message"
           className="bg-grey-dark text-white rounded-xl p-2.5 w-full placeholder-red-light"
+          id='content'
+          name='content'
         />
         <button
           type="submit"

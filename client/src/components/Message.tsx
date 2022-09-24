@@ -35,7 +35,7 @@ const Message = ({ text = '', user, date, image = '' }: any) => {
     <>
       <div className="flex bg-grey-dark rounded-xl w-full max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark">
         {user && <Avatar user={user} />}
-        <div className="flex flex-col gap-2 relative">
+        <div className="flex flex-col gap-2 relative flex-grow">
           <div className="flex justify-between">
             <div className="text-red-light text-xl username">
               {user.firstName} {user.lastName}
