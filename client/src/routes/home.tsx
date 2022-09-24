@@ -1,5 +1,6 @@
 import AppHeader from '@components/AppHeader';
 import Message from '@components/Message';
+import NewMessage from '@components/NewMessage';
 
 const Home = () => {
   const user = {
@@ -9,9 +10,9 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-full bg-grey">
+    <div className="min-h-full max-h-full bg-grey flex flex-col items-center">
       <AppHeader />
-      <main className="flex flex-col items-center p-4 gap-4">
+      <main className="messages-wrapper flex flex-col-reverse p-4 gap-4 overflow-scroll">
         <Message
           user={user}
           text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget
@@ -29,12 +30,9 @@ const Home = () => {
           date="14 août 2022 19:00"
           image="https://picsum.photos/800/600"
         />
-        <Message
-          user={user}
-          date="14 août 2022 19:00"
-          image="https://picsum.photos/1200/800"
-        />
+        <Message user={user} date="14 août 2022 19:00" image="https://picsum.photos/1200/800" />
       </main>
+      <NewMessage />
     </div>
   );
 };
