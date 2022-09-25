@@ -18,8 +18,6 @@ const getMessages = async () => {
 const MessageWrapper = () => {
   const messages = useQuery(["messages"], getMessages, {
     onSuccess: (data) => {
-      console.log(data);
-      
       return data;
     },
     onError: (error) => {
@@ -36,7 +34,7 @@ const MessageWrapper = () => {
   return (
     <main className="messages-wrapper flex flex-col p-4 gap-4 overflow-scroll w-full max-w-3xl">
       {messages.isLoading ? '' : messages.data?.map((message: any) => (
-        <Message user={message.author} text={message.content} image={message.image} date={message.createdAt}/>
+        <Message user={message.author} text={message.content} image={message.image} date={message.createdAt} id={message.id}/>
       ))}
     </main>
   );

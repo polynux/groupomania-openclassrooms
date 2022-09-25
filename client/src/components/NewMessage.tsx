@@ -7,9 +7,8 @@ const sendMessage = async (data: FormData) => {
   const token = new Cookies().get('token');
   let contentType = 'application/json';
   let body: FormData | string | undefined = undefined;
-  console.log(data.get('image'));
   
-  if (data.get('image')?.name !== "") {
+  if (data.get('image')) {
     contentType = 'multipart/form-data';
     body = data;
   } else {
@@ -32,9 +31,12 @@ const NewMessage = () => {
   const queryClient = useQueryClient();
 
   const { mutate: send } = useMutation(sendMessage, {
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries(['messages']);
+      const messageWrapper = document.querySelector('.messages-wrapper');
+      messageWrapper?.addEventListener('DOMNodeInserted', () => {
+        messageWrapper?.scrollTo(0, messageWrapper.scrollHeight);
+      });
     },
     onError: (error) => {
       console.error(error);
@@ -43,6 +45,9 @@ const NewMessage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (message.trim().length === 0 && image.trim().length === 0) {
+      return;
+    }
     const data = new FormData(e.target as HTMLFormElement);
     send(data);
     setMessage('');

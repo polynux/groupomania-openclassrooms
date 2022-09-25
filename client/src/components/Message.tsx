@@ -29,11 +29,10 @@ const Likes = ({ likes }: {likes: number}) => {
   );
 };
 
-const Message = ({ text = '', user, date, image = '' }: any) => {
-  const id = '1'; // replace with real id in the future
+const Message = ({ text = '', user, date, image = '', id }: any) => {
   return (
     <>
-      <div className="flex bg-grey-dark rounded-xl w-full max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark">
+      <div className="flex bg-grey-dark rounded-xl w-full max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark" id={"messageId" + id}>
         {user && <Avatar user={user} />}
         <div className="flex flex-col gap-2 relative flex-grow">
           <div className="flex justify-between">
