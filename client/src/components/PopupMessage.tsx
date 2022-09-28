@@ -1,8 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
 
 const PopupMessage = ({ id }: { id: string }) => {
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const handleClick = (e: any) => {
+      console.log(show && e.target.closest('.popup-btn'));
+      if ((show && !e.target.closest('.popup-btn') || (e.target.closest('.popup') && !e.target.closest('.popup-btn')))) {
+        setShow(false);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+  }, [id]);
 
   return (
     <>
