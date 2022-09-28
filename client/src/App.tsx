@@ -33,6 +33,7 @@ export default () => {
       <QueryClientProvider client={queryClient}>
         <CookiesProvider>
             <Routes>
+              <Route path="/" element={<Auth route="home"/>} />
               <Route path="/login" element={<Auth route="login"/>} />
               <Route path="/signup" element={<Auth route="signup"/>} />
               <Route path="/home" element={<Auth route="home"/>} />
