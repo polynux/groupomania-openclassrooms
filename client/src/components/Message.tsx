@@ -29,21 +29,21 @@ const Likes = ({ likes }: {likes: number}) => {
   );
 };
 
-const Message = ({ text = '', user, date, image = '', id }: any) => {
+const Message = ({ message }: any) => {
   return (
     <>
-      <div className="flex bg-grey-dark rounded-xl w-full max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark" id={"messageId" + id}>
-        {user && <Avatar user={user} />}
+      <div className="flex bg-grey-dark rounded-xl w-full max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark" id={"messageId" + message.id}>
+        {message.author && <Avatar user={message.author} />}
         <div className="flex flex-col gap-2 relative flex-grow">
           <div className="flex justify-between">
             <div className="text-red-light text-xl username">
-              {user.firstName} {user.lastName}
+              {message.author.firstName} {message.author.lastName}
             </div>
-            <PopupMessage id={id} />
+            <PopupMessage message={message} />
           </div>
-          <Text text={text} />
-          <Image image={image} />
-          <div className="text-grey-light date">{date}</div>
+          <Text text={message.content} />
+          <Image image={message.image} />
+          <div className="text-grey-light date">{message.createdAt}</div>
           <Likes likes={2} />
         </div>
         

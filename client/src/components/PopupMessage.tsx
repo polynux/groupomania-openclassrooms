@@ -1,22 +1,42 @@
 import { useEffect, useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
 import Modal from './Modal';
+import { deleteMessage } from '@controllers/MessageController';
+import { useQueryClient } from '@tanstack/react-query';
 
 const DeleteModal = ({
-  id,
+  authorId,
+  messageId,
   showDelete,
   setShowDelete,
 }: {
-  id: string;
+  authorId: string;
+  messageId: string;
   showDelete: boolean;
   setShowDelete: (showDelete: boolean) => void;
 }) => {
+  const queryClient = useQueryClient();
+  
+  const handleDelete = async () => {
+    try {
+      const response = await deleteMessage(messageId);
+      if (response.status === 200) {
+        console.log(await response.json());
+        queryClient.invalidateQueries(['messages']);
+        setShowDelete(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setShowDelete(false);
+    }
+  };
+
   return (
     <Modal show={showDelete}>
       <div className="text-white mb-2">Voulez vous vraiment supprimer ce message ?</div>
       <button
         className="popup-item bg-red text-white border-red border-2 rounded-xl p-2 mr-2 transition-all hover:cursor-pointer hover:bg-white hover:text-red"
-        onClick={() => setShowDelete(!showDelete)}
+        onClick={handleDelete}
       >
         Supprimer
       </button>
@@ -31,11 +51,13 @@ const DeleteModal = ({
 };
 
 const EditModal = ({
-  id,
+  authorId,
+  messageId,
   showEdit,
   setShowEdit,
 }: {
-  id: string;
+  authorId: string;
+  messageId: string;
   showEdit: boolean;
   setShowEdit: (showEdit: boolean) => void;
 }) => {
@@ -46,20 +68,20 @@ const EditModal = ({
   );
 };
 
-const PopupMessage = ({ id }: { id: string }) => {
+const PopupMessage = ({ message }: { message: any }) => {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
   useEffect(() => {
     const handleClick = (e: any) => {
-      if (e.target.closest('#messageId' + id) === null) {
+      if (e.target.closest('#messageId' + message.id) === null) {
         setShow(false);
       }
     };
 
     document.addEventListener('click', handleClick);
-  }, [id]);
+  }, [message.id]);
 
   return (
     <>
@@ -98,8 +120,8 @@ const PopupMessage = ({ id }: { id: string }) => {
           </button>
         </div>
       </div>
-      <EditModal id={id} showEdit={showEdit} setShowEdit={setShowEdit} />
-      <DeleteModal id={id} showDelete={showDelete} setShowDelete={setShowDelete} />
+      <EditModal authorId={message.author.id} messageId={message.id} showEdit={showEdit} setShowEdit={setShowEdit} />
+      <DeleteModal authorId={message.author.id} messageId={message.id} showDelete={showDelete} setShowDelete={setShowDelete} />
     </>
   );
 };

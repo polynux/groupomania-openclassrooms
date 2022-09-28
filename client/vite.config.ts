@@ -24,6 +24,7 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/components'),
       '@styles': path.resolve(__dirname, './src/assets/styles'),
       '@layouts': path.resolve(__dirname, './src/layouts'),
+      '@controllers': path.resolve(__dirname, './src/controllers'),
     }
   },
 });

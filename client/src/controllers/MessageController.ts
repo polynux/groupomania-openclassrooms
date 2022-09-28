@@ -36,13 +36,12 @@ const newMessage = async (data: FormData) => {
 
 const deleteMessage = async (id: string) => {
   const token = new Cookies().get('token');
-  const response = await fetch(`/api/posts/${id}`, {
+  return fetch(`/api/posts/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${token}`
     },
   });
-  return response.json();
 };
 
 const editMessage = async (id: string, data: FormData) => {
