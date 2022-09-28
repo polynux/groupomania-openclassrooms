@@ -9,10 +9,7 @@ const PopupMessage = ({ id }: { id: string }) => {
 
   useEffect(() => {
     const handleClick = (e: any) => {
-      if (
-        (show && !e.target.closest('.popup-btn')) ||
-        (e.target.closest('.popup') && !e.target.closest('.popup-btn'))
-      ) {
+      if ((e.target.closest('.popup-btn') === null) || (e.target.closest('#messageId' + id) === null)) {
         setShow(false);
       }
     };
@@ -57,17 +54,17 @@ const PopupMessage = ({ id }: { id: string }) => {
       <Modal show={showDelete}>
         <div className="text-white mb-2">Voulez vous vraiment supprimer ce message ?</div>
         <button
-            className="popup-item bg-red text-white border-red border-2 rounded-xl p-2 mr-2 transition-all hover:cursor-pointer hover:bg-white hover:text-red"
-            onClick={() => setShowDelete(!showDelete)}
-          >
-            Supprimer
-          </button>
-          <button
-            className="popup-item text-grey-light rounded-xl p-2 transition-all hover:cursor-pointer hover:bg-grey-light hover:text-grey-dark"
-            onClick={() => setShowDelete(!showDelete)}
-          >
-            Annuler
-          </button>
+          className="popup-item bg-red text-white border-red border-2 rounded-xl p-2 mr-2 transition-all hover:cursor-pointer hover:bg-white hover:text-red"
+          onClick={() => setShowDelete(!showDelete)}
+        >
+          Supprimer
+        </button>
+        <button
+          className="popup-item text-grey-light rounded-xl p-2 transition-all hover:cursor-pointer hover:bg-grey-light hover:text-grey-dark"
+          onClick={() => setShowDelete(!showDelete)}
+        >
+          Annuler
+        </button>
       </Modal>
     </>
   );
