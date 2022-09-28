@@ -25,12 +25,6 @@ const MessageWrapper = () => {
     },
   });
 
-  const user = {
-    firstName: 'Guillaume',
-    lastName: 'Dorce',
-    email: 'guillaume.dorce@bm-services.com',
-  };
-
   return (
     <main className="messages-wrapper flex flex-col p-4 gap-4 overflow-scroll w-full max-w-3xl">
       {messages.isLoading ? '' : messages.data?.map((message: any) => (

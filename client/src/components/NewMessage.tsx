@@ -33,10 +33,6 @@ const NewMessage = () => {
   const { mutate: send } = useMutation(sendMessage, {
     onSuccess: () => {
       queryClient.invalidateQueries(['messages']);
-      const messageWrapper = document.querySelector('.messages-wrapper');
-      messageWrapper?.addEventListener('DOMNodeInserted', () => {
-        messageWrapper?.scrollTo(0, messageWrapper.scrollHeight);
-      });
     },
     onError: (error) => {
       console.error(error);
