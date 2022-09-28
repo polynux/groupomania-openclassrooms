@@ -14,6 +14,7 @@ module.exports = {
       },
       zIndex: {
         '100': '100',
+        '1000': '1000',
       },
       padding: {
         '2.5': '0.625rem',
