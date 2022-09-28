@@ -1,5 +1,6 @@
-import { FaEllipsisH, FaThumbsUp } from 'react-icons/fa';
+import { FaThumbsUp } from 'react-icons/fa';
 import Avatar from '@components/Avatar';
+import PopupMessage from './PopupMessage';
 
 const Image = ({ image }: {image: string}) => {
   if (image === '') {
@@ -29,6 +30,7 @@ const Likes = ({ likes }: {likes: number}) => {
 };
 
 const Message = ({ text = '', user, date, image = '' }: any) => {
+  const id = '1'; // replace with real id in the future
   return (
     <>
       <div className="flex bg-grey-dark rounded-xl max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark">
@@ -38,9 +40,7 @@ const Message = ({ text = '', user, date, image = '' }: any) => {
             <div className="text-red-light text-xl username">
               {user.firstName} {user.lastName}
             </div>
-            <div className="text-grey popup-btn text-2xl cursor-pointer">
-              <FaEllipsisH className="fill-grey-light" />
-            </div>
+            <PopupMessage id={id} />
           </div>
           <Text text={text} />
           <Image image={image} />
