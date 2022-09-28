@@ -2,6 +2,50 @@ import { useEffect, useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
 import Modal from './Modal';
 
+const DeleteModal = ({
+  id,
+  showDelete,
+  setShowDelete,
+}: {
+  id: string;
+  showDelete: boolean;
+  setShowDelete: (showDelete: boolean) => void;
+}) => {
+  return (
+    <Modal show={showDelete}>
+      <div className="text-white mb-2">Voulez vous vraiment supprimer ce message ?</div>
+      <button
+        className="popup-item bg-red text-white border-red border-2 rounded-xl p-2 mr-2 transition-all hover:cursor-pointer hover:bg-white hover:text-red"
+        onClick={() => setShowDelete(!showDelete)}
+      >
+        Supprimer
+      </button>
+      <button
+        className="popup-item text-grey-light rounded-xl p-2 transition-all hover:cursor-pointer hover:bg-grey-light hover:text-grey-dark"
+        onClick={() => setShowDelete(!showDelete)}
+      >
+        Annuler
+      </button>
+    </Modal>
+  );
+};
+
+const EditModal = ({
+  id,
+  showEdit,
+  setShowEdit,
+}: {
+  id: string;
+  showEdit: boolean;
+  setShowEdit: (showEdit: boolean) => void;
+}) => {
+  return (
+    <Modal show={showEdit}>
+      <div className="text-white">Modifier</div>
+    </Modal>
+  );
+};
+
 const PopupMessage = ({ id }: { id: string }) => {
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -9,7 +53,7 @@ const PopupMessage = ({ id }: { id: string }) => {
 
   useEffect(() => {
     const handleClick = (e: any) => {
-      if ((e.target.closest('.popup-btn') === null) || (e.target.closest('#messageId' + id) === null)) {
+      if (e.target.closest('#messageId' + id) === null) {
         setShow(false);
       }
     };
@@ -36,36 +80,26 @@ const PopupMessage = ({ id }: { id: string }) => {
         <div className="popup-content space-y-2">
           <button
             className="popup-item block text-white rounded-xl p-2 transition-all hover:cursor-pointer hover:bg-grey-light hover:text-grey-dark"
-            onClick={() => setShowEdit(!showEdit)}
+            onClick={() => {
+              setShowEdit(!showEdit);
+              setShow(!show);
+            }}
           >
             Modifier
           </button>
           <button
             className="popup-item block text-red rounded-xl p-2 transition-all hover:cursor-pointer hover:text-white hover:bg-red"
-            onClick={() => setShowDelete(!showDelete)}
+            onClick={() => {
+              setShowDelete(!showDelete);
+              setShow(!show);
+            }}
           >
             Supprimer
           </button>
         </div>
       </div>
-      <Modal show={showEdit}>
-        <div className="text-white">Modifier</div>
-      </Modal>
-      <Modal show={showDelete}>
-        <div className="text-white mb-2">Voulez vous vraiment supprimer ce message ?</div>
-        <button
-          className="popup-item bg-red text-white border-red border-2 rounded-xl p-2 mr-2 transition-all hover:cursor-pointer hover:bg-white hover:text-red"
-          onClick={() => setShowDelete(!showDelete)}
-        >
-          Supprimer
-        </button>
-        <button
-          className="popup-item text-grey-light rounded-xl p-2 transition-all hover:cursor-pointer hover:bg-grey-light hover:text-grey-dark"
-          onClick={() => setShowDelete(!showDelete)}
-        >
-          Annuler
-        </button>
-      </Modal>
+      <EditModal id={id} showEdit={showEdit} setShowEdit={setShowEdit} />
+      <DeleteModal id={id} showDelete={showDelete} setShowDelete={setShowDelete} />
     </>
   );
 };

@@ -8,7 +8,7 @@ const Modal = ({ children, show }: { children: ReactNode; show: boolean }) => {
         (show ? '' : ' hidden')
       }
     >
-      <div className="absolute w-full h-full top-0 left-0 bg-grey opacity-40"></div>
+      <div className="absolute w-full h-full top-0 left-0 bg-gray-900 opacity-70"></div>
       <div className="relative rounded-lg shadow dark:bg-grey-dark p-4">{children}</div>
     </div>
   );
