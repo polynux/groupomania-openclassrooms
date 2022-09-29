@@ -16,7 +16,8 @@
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "react-toastify": "^9.0.8"
   },
   "devDependencies": {
     "@types/gravatar": "^1.8.3",

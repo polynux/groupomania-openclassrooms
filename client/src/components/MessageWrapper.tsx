@@ -26,7 +26,7 @@ const MessageWrapper = () => {
   });
 
   return (
-    <main className="messages-wrapper flex flex-col p-4 gap-4 overflow-scroll w-full max-w-3xl">
+    <main className="messages-wrapper flex flex-col gap-4 pb-6 pt-4 -mb-4 overflow-scroll w-full max-w-3xl rounded-md">
       {messages.isLoading ? '' : messages.data?.map((message: any) => (
         <Message message={message} key={message.id}/>
       ))}

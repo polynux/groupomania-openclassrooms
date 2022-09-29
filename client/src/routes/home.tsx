@@ -1,6 +1,8 @@
 import AppHeader from '@components/AppHeader';
 import MessageWrapper from '@components/MessageWrapper';
 import NewMessage from '@components/NewMessage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   return (
@@ -8,6 +10,7 @@ const Home = () => {
       <AppHeader />
       <MessageWrapper />
       <NewMessage />
+      <ToastContainer />
     </div>
   );
 };

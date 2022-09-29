@@ -51,7 +51,7 @@ const NewMessage = () => {
   };
 
   return (
-    <footer className="new-message bg-grey-dark rounded-xl w-full max-w-3xl p-3 gap-5 shadow-md shadow-grey-dark -mt-2">
+    <footer className="new-message bg-grey-dark rounded-xl w-full max-w-3xl p-3 gap-5 shadow-md shadow-grey-dark z-10">
       <form onSubmit={handleSubmit} className="flex gap-2">
         <div className="file">
           <label htmlFor="image" className="cursor-pointer block p-2">

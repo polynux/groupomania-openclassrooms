@@ -1,12 +1,12 @@
-import { Cookies } from "react-cookie";
+import { Cookies } from 'react-cookie';
 
 const getMessages = async () => {
   const token = new Cookies().get('token');
   const response = await fetch('/api/posts', {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
   const data = await response.json();
   return data;
@@ -19,7 +19,7 @@ const newMessage = async (data: FormData) => {
     body = data;
   } else {
     body = JSON.stringify({
-      content: data.get('content')
+      content: data.get('content'),
     });
   }
 
@@ -28,7 +28,7 @@ const newMessage = async (data: FormData) => {
     body,
     mode: 'cors',
     headers: {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.json();
@@ -36,12 +36,13 @@ const newMessage = async (data: FormData) => {
 
 const deleteMessage = async (id: string) => {
   const token = new Cookies().get('token');
-  return fetch(`/api/posts/delete/${id}`, {
+  const response = await fetch(`/api/posts/delete/${id}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   });
+  return response.json();
 };
 
 const editMessage = async (id: string, data: FormData) => {
@@ -51,7 +52,7 @@ const editMessage = async (id: string, data: FormData) => {
     body = data;
   } else {
     body = JSON.stringify({
-      content: data.get('content')
+      content: data.get('content'),
     });
   }
 
@@ -59,7 +60,7 @@ const editMessage = async (id: string, data: FormData) => {
     method: 'PUT',
     body,
     headers: {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.json();
