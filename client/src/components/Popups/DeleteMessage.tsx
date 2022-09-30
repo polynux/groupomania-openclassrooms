@@ -1,7 +1,7 @@
 import { deleteMessage } from "@controllers/MessageController";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import Modal from "../Modal";
+import { toastError, toastSuccess } from "@controllers/Toasts";
 
 const DeleteMessage = ({
   authorId,
@@ -21,25 +21,9 @@ const DeleteMessage = ({
     queryClient.invalidateQueries(['messages']);
     setShowDelete(false);
     if (response.error) {
-      toast.error(response.error, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastError(response.error);
     } else {
-      toast.success(response.message, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastSuccess(response.message);
     }
     setShowDelete(false);
   };

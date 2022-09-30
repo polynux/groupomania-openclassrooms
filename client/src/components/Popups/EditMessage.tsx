@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { editMessage } from '@controllers/MessageController';
-import { toast } from 'react-toastify';
+import { toastSuccess, toastError } from '@controllers/Toasts';
 
 const EditMessage = ({
   message,
@@ -23,27 +23,11 @@ const EditMessage = ({
     const response = await editMessage(message.id, data);
 
     if (response.error) {
-      toast.error(response.error, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastError(response.error);
       return;
     }
 
-    toast.success('Message édité avec succès !', {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    toastSuccess('Message edité avec succès');
     queryClient.invalidateQueries(['messages']);
     setShowEdit(false);
   };
