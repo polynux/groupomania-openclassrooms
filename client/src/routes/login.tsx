@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import type { Token } from '../types';
+import { toastError } from '@controllers/Toasts';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +22,10 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
       });
+      const data = await response.json();
+      if (data.error) {
+        throw data.error;
+      }
       return response.json();
     },
     {
@@ -28,7 +33,7 @@ const Login = () => {
         setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
       },
       onError: (error) => {
-        console.error(error);
+        toastError(error as string);
       },
       enabled: false,
       refetchOnWindowFocus: false,

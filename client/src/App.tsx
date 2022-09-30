@@ -4,6 +4,7 @@ import Login from './routes/login';
 import Home from './routes/home';
 import { CookiesProvider, useCookies } from 'react-cookie';
 import Signup from './routes/signup';
+import { ToastContainer } from 'react-toastify';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ export default () => {
               <Route path="/signup" element={<Auth route="signup"/>} />
               <Route path="/home" element={<Auth route="home"/>} />
             </Routes>
+            <ToastContainer />
             <Outlet />
         </CookiesProvider>
       </QueryClientProvider>
