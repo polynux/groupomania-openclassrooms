@@ -1,36 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Cookies } from 'react-cookie';
 import { FaPlus } from 'react-icons/fa';
-
-const sendMessage = async (data: FormData) => {
-  const token = new Cookies().get('token');
-  let contentType = 'application/json';
-  let body: FormData | string | undefined = undefined;
-  
-  if (data.get('image')) {
-    contentType = 'multipart/form-data';
-    body = data;
-  } else {
-    body = JSON.stringify(data);
-  }
-  const response = await fetch('/api/posts/new', {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body,
-  });
-  return response.json();
-};
+import {newMessage} from '@controllers/MessageController';
 
 const NewMessage = () => {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState('');
   const queryClient = useQueryClient();
 
-  const { mutate: send } = useMutation(sendMessage, {
+  const { mutate: send } = useMutation(newMessage, {
     onSuccess: () => {
       queryClient.invalidateQueries(['messages']);
     },

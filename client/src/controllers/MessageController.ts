@@ -14,18 +14,9 @@ const getMessages = async () => {
 
 const newMessage = async (data: FormData) => {
   const token = new Cookies().get('token');
-  let body;
-  if (data.get('image')) {
-    body = data;
-  } else {
-    body = JSON.stringify({
-      content: data.get('content'),
-    });
-  }
-
   const response = await fetch('/api/posts/new', {
     method: 'POST',
-    body,
+    body: data,
     mode: 'cors',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -47,18 +38,10 @@ const deleteMessage = async (id: string) => {
 
 const editMessage = async (id: string, data: FormData) => {
   const token = new Cookies().get('token');
-  let body;
-  if (data.get('image')) {
-    body = data;
-  } else {
-    body = JSON.stringify({
-      content: data.get('content'),
-    });
-  }
-
-  const response = await fetch(`/api/posts/${id}`, {
+  const response = await fetch(`/api/posts/edit/${id}`, {
     method: 'PUT',
-    body,
+    body: data,
+    mode: 'cors',
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -1,6 +1,6 @@
 import { FaThumbsUp } from 'react-icons/fa';
 import Avatar from '@components/Avatar';
-import PopupMessage from './PopupMessage';
+import PopupMenu from './PopupMenu';
 
 const Image = ({ image }: {image: string}) => {
   if (image === '' || image === null) {
@@ -39,7 +39,7 @@ const Message = ({ message }: any) => {
             <div className="text-red-light text-xl username">
               {message.author.firstName} {message.author.lastName}
             </div>
-            <PopupMessage message={message} />
+            <PopupMenu message={message} />
           </div>
           <Text text={message.content} />
           <Image image={message.image} />

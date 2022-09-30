@@ -1,19 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Cookies } from "react-cookie";
 import Message from "./Message";
-
-const getMessages = async () => {
-  const token = new Cookies().get("token");
-  const response = await fetch("/api/posts", {
-    method: "GET",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.json();
-};
+import { getMessages } from "@controllers/MessageController";
 
 const MessageWrapper = () => {
   const messages = useQuery(["messages"], getMessages, {
