@@ -35,7 +35,7 @@ const EditMessage = ({
       return;
     }
 
-    toast.success('Message édité avec succès!', {
+    toast.success('Message édité avec succès !', {
       position: 'top-right',
       autoClose: 5000,
       hideProgressBar: false,
