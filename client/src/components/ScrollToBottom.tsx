@@ -1,12 +1,27 @@
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
 const ScrollToBottom = ({ children, className = '' }: { children: ReactNode; className?: string }) => {
   const [node, setNode] = useState<HTMLDivElement | null>(null);
+  const [show, setShow] = useState(false);
+  
   const bottom = useCallback((node: HTMLDivElement) => {
+    if (node) {
       node.scrollIntoView({ behavior: 'smooth' });
       setNode(node);
+    }
   }, []);
+  
+  useEffect(() => {
+    document.querySelector('main > div')?.addEventListener('scroll', () => {
+      if (node?.getBoundingClientRect() && node.getBoundingClientRect().y >= window.innerHeight) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
+    });
+  }, [node]);
+      
 
   return (
     <>
@@ -16,7 +31,7 @@ const ScrollToBottom = ({ children, className = '' }: { children: ReactNode; cla
       </div>
       <button
         onClick={() => node?.scrollIntoView({ behavior: 'smooth' })}
-        className="absolute right-3 bottom-3"
+        className={"absolute right-3 transition-all" + (show ? ' bottom-3' : ' -bottom-10')}
       >
           <div className="popup-btn cursor-pointer rounded-full bg-grey-dark hover:bg-grey-light transition-all">
             <FaChevronDown className="fill-grey-light hover:fill-grey-dark transition-all text-xl w-10 h-10 p-2.5" />
