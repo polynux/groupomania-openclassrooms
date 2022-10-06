@@ -26,7 +26,7 @@ const Login = () => {
       if (data.error) {
         throw data.error;
       }
-      return response.json();
+      return data;
     },
     {
       onSuccess: (data: Token) => {
