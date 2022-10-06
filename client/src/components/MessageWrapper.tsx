@@ -14,6 +14,10 @@ const MessageWrapper = () => {
       toastError(error as string);
     },
   });
+  
+  if (isLoading || isError) {
+    return null;
+  }
 
   return (
     <main className="messages-wrapper rounded-md w-full max-w-3xl flex flex-col max-h-[83vh] relative">
