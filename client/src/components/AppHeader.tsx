@@ -1,20 +1,8 @@
 import logo from '@assets/images/logo.svg';
 import { useQuery } from '@tanstack/react-query';
-import { Cookies, withCookies, useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import Avatar from '@components/Avatar';
-
-const getMeInfo = async () => {
-  const token = new Cookies().get('token');
-  const response = await fetch('/api/me', {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.json();
-};
+import { getMeInfo } from '@controllers/UserController';
 
 const AppHeader = () => {
   const meInfo = useQuery(['me'], getMeInfo, {
@@ -58,4 +46,4 @@ const AppHeader = () => {
   );
 };
 
-export default withCookies(AppHeader);
+export default AppHeader;

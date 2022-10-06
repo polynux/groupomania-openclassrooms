@@ -1,6 +1,9 @@
 import { FaThumbsUp } from 'react-icons/fa';
 import Avatar from '@components/Avatar';
 import PopupMenu from './PopupMenu';
+import { getMeInfo } from '@controllers/UserController';
+import { useQuery } from '@tanstack/react-query';
+import { toastError } from '@controllers/Toasts';
 
 const Image = ({ image }: { image: string }) => {
   if (image === '' || image === null) {
@@ -30,6 +33,15 @@ const Likes = ({ likes }: { likes: number }) => {
 };
 
 const Message = ({ message }: any) => {
+  const me = useQuery(['me'], getMeInfo, {
+    onSuccess: (data) => {
+      return data;
+    },
+    onError: (error) => {
+      toastError(error as string);
+    },
+  });
+  
   return (
     <>
       <div
@@ -42,7 +54,9 @@ const Message = ({ message }: any) => {
             <div className="text-red-light text-xl username">
               {message.author.firstName} {message.author.lastName}
             </div>
-            <PopupMenu message={message} />
+            {(me.data?.id === message.author.id) || (me.data?.role === 'ADMIN') ? (
+              <PopupMenu message={message} />
+            ) : null}
           </div>
           <Text text={message.content} />
           <Image image={message.image} />
