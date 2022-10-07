@@ -1,9 +1,10 @@
-import { FaThumbsUp } from 'react-icons/fa';
 import Avatar from '@components/Avatar';
-import PopupMenu from './PopupMenu';
+import PopupMenu from '@components/PopupMenu';
+import Like from '@components/Like';
 import { getMeInfo } from '@controllers/UserController';
 import { useQuery } from '@tanstack/react-query';
 import { toastError } from '@controllers/Toasts';
+import { useState } from 'react';
 
 const Image = ({ image }: { image: string }) => {
   if (image === '' || image === null) {
@@ -22,14 +23,6 @@ const Text = ({ text }: { text: string }) => {
     return null;
   }
   return <div className="text-white message">{text}</div>;
-};
-
-const Likes = ({ likes }: { likes: number }) => {
-  return (
-    <div className="absolute -bottom-10 right-0 mb-2 rounded-full bg-grey-dark shadow-lg shadow-slate-900 cursor-pointer">
-      <FaThumbsUp className="fill-red-light text-xl  w-10 h-10 p-2.5" />
-    </div>
-  );
 };
 
 const Message = ({ message }: any) => {
@@ -69,7 +62,7 @@ const Message = ({ message }: any) => {
               minute: 'numeric',
             })}
           </div>
-          <Likes likes={2} />
+          <Like messageId={message.id} isLiked={(message.likes > 0 && message.likedBy.find((like: any) => like.userId === me.data?.id)) ? true : false} />
         </div>
       </div>
     </>
