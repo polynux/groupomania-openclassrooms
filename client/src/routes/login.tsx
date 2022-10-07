@@ -1,48 +1,29 @@
 import { Link } from 'react-router-dom';
 import logo from '@assets/images/logo.svg';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import type { Token } from '../types';
 import { toastError } from '@controllers/Toasts';
+import { login } from '@controllers/UserController';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cookies, setCookie] = useCookies(['token']);
-  
-  const { refetch } = useQuery(
-    ['login'],
-    async () => {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      if (data.error) {
-        throw data.error;
-      }
-      return data;
+
+  const mutation = useMutation(login, {
+    onSuccess: (data: Token) => {
+      setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
     },
-    {
-      onSuccess: (data: Token) => {
-        setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
-      },
-      onError: (error) => {
-        toastError(error as string);
-      },
-      enabled: false,
-      refetchOnWindowFocus: false,
+    onError: (error) => {
+      toastError(error as string);
     }
-  );
+  });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await refetch();
+    mutation.mutate({ email, password });
   };
 
   return (

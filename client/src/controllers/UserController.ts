@@ -13,7 +13,7 @@ const getMeInfo = async () => {
   return response.json();
 };
 
-const login = async (email: string, password: string) => {
+const login = async ({email, password}: {email: string, password: string}) => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
