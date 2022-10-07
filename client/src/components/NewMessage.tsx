@@ -29,8 +29,8 @@ const NewMessage = () => {
   };
 
   return (
-    <footer className="new-message bg-grey-dark rounded-xl w-full max-w-3xl p-3 gap-5 shadow-md shadow-grey-dark z-10">
-      <form onSubmit={handleSubmit} className="flex gap-2">
+    <footer className="new-message z-10 flex justify-center w-full">
+      <form onSubmit={handleSubmit} className="flex gap-2 bg-grey-dark rounded-xl w-full max-w-3xl p-2 mx-2 sm:p-3 md:mx-0 shadow-md shadow-grey-dark">
         <div className="file">
           <label htmlFor="image" className="cursor-pointer block p-2">
             <div className="rounded-full text-grey-dark bg-red-light text-lg p-2">

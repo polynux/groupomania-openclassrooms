@@ -19,7 +19,7 @@ const Avatar = ({ user }: any) => {
 
   return (
     <div className="avatar shrink-0">
-      <img src={avatar} alt="avatar" className="rounded-full w-16 h-16 cursor-pointer" />
+      <img src={avatar} alt="avatar" className="rounded-full w-12 h-12 md:w-16 md:h-16 transition-all cursor-pointer" />
     </div>
   );
 };

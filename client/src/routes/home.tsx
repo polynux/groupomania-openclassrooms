@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   return (
-    <div className="min-h-full max-h-full bg-grey flex flex-col items-center">
+    <div className="min-h-full max-h-full bg-grey flex flex-col items-center overflow-y-hidden">
       <AppHeader />
       <MessageWrapper />
       <NewMessage />
