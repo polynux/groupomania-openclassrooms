@@ -1,6 +1,22 @@
+import { Token } from '@/types';
 import logo from '@assets/images/logo.svg';
+import { toastError, toastSuccess } from '@controllers/Toasts';
+import { signup } from '@controllers/UserController';
+import { useNavigate } from 'react-router-dom';
 
 export default () => {
+  const navigate = useNavigate();
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.target as HTMLFormElement);
+    signup(data).then((data: Token) => {
+      toastSuccess('You have successfully signed up!');
+      navigate('/login');
+    }).catch((err) => {
+      toastError(err as string);
+    });
+  };
+
   return (
     <>
       <div className="flex flex-col min-h-full items-center justify-center py-12 px-4 bg-grey-dark sm:px-6 lg:px-8">
@@ -8,31 +24,31 @@ export default () => {
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
         </div>
         <div className="w-full max-w-md space-y-8 bg-grey rounded-lg p-5">
-          <form className="m-6 " action="#" method="POST">
+          <form className="m-6 " action="#" method="POST" onSubmit={(e) => onSubmit(e)}>
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
-                <label htmlFor="lastname" className="sr-only">
+                <label htmlFor="lastName" className="sr-only">
                   Nom
                 </label>
                 <input
-                  id="lastname"
-                  name="lastname"
+                  id="lastName"
+                  name="lastName"
                   type="text"
-                  autoComplete="lastname"
+                  autoComplete="lastName"
                   required
                   className="relative block w-full appearance-none rounded-lg border px-3 py-2 my-2 placeholder-grey-light focus:z-10 focus:border-red focus:outline-none focus:ring-red sm:text-sm"
                   placeholder="Nom"
                 />
               </div>
               <div>
-                <label htmlFor="firstname" className="sr-only">
+                <label htmlFor="firstName" className="sr-only">
                   Prénom
                 </label>
                 <input
-                  id="firstname"
-                  name="firstname"
+                  id="firstName"
+                  name="firstName"
                   type="text"
-                  autoComplete="firstname"
+                  autoComplete="firstName"
                   required
                   className="relative block w-full appearance-none rounded-lg border px-3 py-2 my-2 placeholder-grey-light focus:z-10 focus:border-red focus:outline-none focus:ring-red sm:text-sm"
                   placeholder="Prénom"

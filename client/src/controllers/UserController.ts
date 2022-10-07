@@ -29,10 +29,22 @@ const login = async ({email, password}: {email: string, password: string}) => {
   return data;
 };
 
-const signup = async (email: string, password: string) => {
+const signup = async (formData: FormData) => {
+  const form = {
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+    "password-confirm": formData.get('password-confirm') as string,
+    firstName: formData.get('firstName') as string,
+    lastName: formData.get('lastName') as string,
+  };
+  
+  if (form.password !== form["password-confirm"]) {
+    throw "Passwords do not match";
+  }
+  
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(form),
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
