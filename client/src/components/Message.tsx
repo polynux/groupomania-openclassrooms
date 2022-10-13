@@ -4,7 +4,7 @@ import Like from '@components/Like';
 import { getMeInfo } from '@controllers/UserController';
 import { useQuery } from '@tanstack/react-query';
 import { toastError } from '@controllers/Toasts';
-import { useState } from 'react';
+import User from './User';
 
 const Image = ({ image }: { image: string }) => {
   if (image === '' || image === null) {
@@ -44,9 +44,7 @@ const Message = ({ message }: any) => {
         {message.author && <Avatar user={message.author} />}
         <div className="flex flex-col gap-2 relative flex-grow">
           <div className="flex justify-between">
-            <div className="text-red-light text-xl username">
-              {message.author.firstName} {message.author.lastName}
-            </div>
+            {message.author && <User author={message.author} />}
             {(me.data?.id === message.author.id) || (me.data?.role === 'ADMIN') ? (
               <PopupMenu message={message} />
             ) : null}

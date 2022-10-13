@@ -2,6 +2,7 @@ import logo from '@assets/images/logo-only.svg';
 import { useQuery } from '@tanstack/react-query';
 import { useCookies } from 'react-cookie';
 import Avatar from '@components/Avatar';
+import User from './User';
 import { getMeInfo } from '@controllers/UserController';
 import { FiLogOut } from 'react-icons/fi';
 
@@ -31,9 +32,7 @@ const AppHeader = () => {
           <div className="flex items-center gap-2 sm:gap-4">
             {meInfo.data && <Avatar user={meInfo.data} />}
             <div className="app-header__user__name">
-              <span className="text-white">
-                {meInfo.isLoading ? '' : meInfo.data ? meInfo.data.firstName + ' ' + meInfo.data.lastName : ''}
-              </span>
+              {meInfo.data && <User author={meInfo.data} />}
             </div>
             <button
               className="group relative flex w-auto justify-center rounded-md border border-red bg-red py-2 px-2 text-sm font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"

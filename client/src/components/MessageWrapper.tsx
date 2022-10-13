@@ -20,8 +20,8 @@ const MessageWrapper = () => {
   }
 
   return (
-    <main className="messages-wrapper rounded-md w-full max-w-3xl flex flex-col flex-shrink relative overflow-y-scroll">
-      <ScrollToBottom className="message-container flex flex-col gap-4 w-full max-w-3xl pt-4 pb-6 -mb-3 px-2 md:px-0">
+    <main className="messages-wrapper rounded-md w-full max-w-3xl flex flex-col flex-shrink relative overflow-y-hidden">
+      <ScrollToBottom className="message-container flex flex-col gap-4 w-full max-w-3xl overflow-scroll pt-4 pb-6 px-2 md:px-0">
         {isLoading
           ? ''
           : isError
