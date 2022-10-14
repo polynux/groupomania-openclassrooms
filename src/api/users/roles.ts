@@ -4,7 +4,7 @@ import { changeUserRoles, getUserById } from "@/controller/UserController";
 export default async (req: Request, res: Response) => {
   try {
     const user = await getUserById(req.userId);
-    if (user?.role !== "ADMIN") {
+    if (user?.role !== "ADMIN" && user?.role !== "CREATOR") {
       return res.status(403).send({ error: "Forbidden" });
     }
     const id = parseInt(req.params.id);

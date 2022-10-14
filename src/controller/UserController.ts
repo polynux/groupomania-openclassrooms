@@ -62,6 +62,9 @@ const newUser = async (user: User) => {
 };
 
 export const changeUserRoles = async (id: number, role: Role) => {
+  if (role === 'CREATOR') {
+    return new Error('You cannot change user role to CREATOR');
+  }
   const currentUser = await prisma.user.findUnique({
     where: {
       id,
@@ -73,6 +76,9 @@ export const changeUserRoles = async (id: number, role: Role) => {
   }
   if (currentUser.role === role) {
     throw new Error('User already has this role');
+  }
+  if (currentUser.role === 'CREATOR') {
+    throw new Error('You cannot change role of user with CREATOR role');
   }
 
   const updatedUser = await prisma.user.update({
