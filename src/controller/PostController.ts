@@ -52,7 +52,11 @@ const editPost = async (post: Post): Promise<PrismaPost | null | Error> => {
   if (originalPost === null) {
     return null;
   }
-  if (originalPost.authorId !== post.authorId) {
+  const user = await getUserById(post.authorId);
+  if (!user) {
+    return new Error('User not found');
+  }
+  if (originalPost.authorId !== post.authorId && user.role === 'USER') {
     return new Error('User is not the author of this post');
   }
   const editedPost = await prisma.post.update({
