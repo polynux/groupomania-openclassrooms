@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 import { User } from '@/models/UserModel';
 import { exclude } from '@/lib/utils';
 
@@ -59,6 +59,35 @@ const newUser = async (user: User) => {
   });
 
   return newUser;
+};
+
+export const changeUserRoles = async (id: number, role: Role) => {
+  const currentUser = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!currentUser) {
+    return new Error('User not found');
+  }
+  if (currentUser.role === role) {
+    throw new Error('User already has this role');
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      role,
+    },
+  });
+
+  if (!updatedUser) {
+    return new Error('User not found');
+  }
+  return exclude(updatedUser, 'password');
 };
 
 export { getUser, newUser, isUserExist, getUserById };
