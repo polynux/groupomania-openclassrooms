@@ -21,7 +21,8 @@ const ScrollToBottom = ({ children, className = '' }: { children: ReactNode; cla
         setShow(false);
       }
     });
-    container?.addEventListener('DOMNodeInserted', () => {
+    container?.addEventListener('DOMNodeInserted', (e) => {
+      if (!(e.target as Element).classList.contains('message')) return;
       if (node?.getBoundingClientRect() && node.getBoundingClientRect().y >= window.innerHeight) {
         node?.scrollIntoView({ behavior: 'smooth' });
       }

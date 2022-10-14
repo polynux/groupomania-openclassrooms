@@ -38,7 +38,7 @@ const Message = ({ message }: any) => {
   return (
     <>
       <div
-        className="flex bg-grey-dark rounded-xl w-full max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark"
+        className="message flex bg-grey-dark rounded-xl w-full max-w-3xl p-5 gap-5 shadow-md shadow-grey-dark"
         id={'messageId' + message.id}
       >
         {message.author && <Avatar user={message.author} />}
