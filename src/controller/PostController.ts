@@ -1,6 +1,7 @@
 import { PrismaClient, Post as PrismaPost, Like } from '@prisma/client';
 import { Post } from '@/models/PostModel';
 import { exclude } from '@/lib/utils';
+import { getUserById } from './UserController';
 
 const prisma = new PrismaClient();
 
@@ -82,7 +83,11 @@ const deletePost = async (id: number, userId: number): Promise<PrismaPost | Erro
   if (post === null) {
     return new Error('Post not found');
   }
-  if (post.authorId !== userId) {
+  const user = await getUserById(userId);
+  if (!user) {
+    return new Error('User not found');
+  }
+  if (post.authorId !== userId && user.role === 'USER') {
     return new Error('User is not the author of this post');
   }
   return prisma.post.delete({
