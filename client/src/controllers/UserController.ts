@@ -58,14 +58,15 @@ const signup = async (formData: FormData) => {
   return data;
 };
 
-export const giveUserRights = async (userId: string, right: string) => {
-  const response = await fetch(`/api/users/${userId}/rights`, {
+export const giveUserRights = async (userId: string, role: string) => {
+  const response = await fetch(`/api/users/${userId}/roles`, {
     method: 'POST',
     mode: 'cors',
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ right }),
+    body: JSON.stringify({ role }),
   });
   if (!response.ok) {
     return {error: response.statusText};

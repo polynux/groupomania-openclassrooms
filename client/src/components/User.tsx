@@ -1,12 +1,23 @@
 import { useState } from 'react';
 import Modal from './Modal';
-import { giveUserRights } from '@controllers/UserController';
+import { getMeInfo, giveUserRights } from '@controllers/UserController';
 import { toastError, toastSuccess } from '@controllers/Toasts';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const User = ({ author }: any) => {
   const [show, setShow] = useState(false);
   const [popupPos, setPopupPos] = useState({ posX: 0, posY: 0 });
   const [messageId, setMessageId] = useState('0');
+  const me = useQuery(['me'], getMeInfo, {
+    onSuccess: (data) => {
+      return data;
+    },
+    onError: (error) => {
+      toastError(error as string);
+    },
+  });
+  
+  const queryClient = useQueryClient();
 
   function handleContextMenu(e: any) {
 
@@ -28,7 +39,7 @@ const User = ({ author }: any) => {
 
   document.addEventListener('click', handleClick);
 
-  const handleRightClick = (e: any) => {
+  const handleRightClick = async (e: any) => {
     e.preventDefault();
     setMessageId(e.target.closest('.message').id.slice(9));
     setPopupPos({ posX: e.clientX, posY: e.clientY });
@@ -37,11 +48,12 @@ const User = ({ author }: any) => {
   async function changeRights() {
     setPopupPos({ posX: 0, posY: 0 });
     setMessageId('0');
-    const response = await giveUserRights(author.id, 'ADMIN');
+    const response = await giveUserRights(author.id, author.role === 'USER' ? 'ADMIN' : 'USER');
     if (response.error) {
       return toastError(response.error);
     }
     toastSuccess('User rights changed');
+    queryClient.invalidateQueries(['messages']);
   }
 
   return (
@@ -49,7 +61,14 @@ const User = ({ author }: any) => {
       <button
         className="text-red-light text-xl username"
         onClick={() => setShow(true)}
-        onContextMenu={handleRightClick}
+        onContextMenu={(e) => {
+          if (author.role === 'CREATOR') {
+            return;
+          }
+          if (me.data?.role === 'ADMIN' || me.data?.role === 'CREATOR') {
+            handleRightClick(e);
+          }
+        }}
       >
         {author.firstName} {author.lastName}
       </button>
@@ -64,7 +83,7 @@ const User = ({ author }: any) => {
               className="popup-item block text-white rounded-xl p-2 transition-all hover:cursor-pointer hover:bg-grey-light hover:text-grey-dark"
               onClick={changeRights}
             >
-              Donner le role d'admin
+              Donner le role {author.role === 'ADMIN' ? 'utilisateur' : 'administrateur'}
             </button>
           </div>
         </div>
