@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from './Modal';
+import { giveUserRights } from '@controllers/UserController';
+import { toastError, toastSuccess } from '@controllers/Toasts';
 
 const User = ({ author }: any) => {
   const [show, setShow] = useState(false);
@@ -29,9 +31,18 @@ const User = ({ author }: any) => {
   const handleRightClick = (e: any) => {
     e.preventDefault();
     setMessageId(e.target.closest('.message').id.slice(9));
-
     setPopupPos({ posX: e.clientX, posY: e.clientY });
   };
+  
+  async function changeRights() {
+    setPopupPos({ posX: 0, posY: 0 });
+    setMessageId('0');
+    const response = await giveUserRights(author.id, 'ADMIN');
+    if (response.error) {
+      return toastError(response.error);
+    }
+    toastSuccess('User rights changed');
+  }
 
   return (
     <div className="user">
@@ -51,9 +62,7 @@ const User = ({ author }: any) => {
           <div className="popup-content space-y-2">
             <button
               className="popup-item block text-white rounded-xl p-2 transition-all hover:cursor-pointer hover:bg-grey-light hover:text-grey-dark"
-              onClick={() => {
-                setPopupPos({ posX: 0, posY: 0 });
-              }}
+              onClick={changeRights}
             >
               Donner le role d'admin
             </button>

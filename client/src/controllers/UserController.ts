@@ -1,7 +1,8 @@
 import { Cookies } from 'react-cookie';
 
+const token = new Cookies().get('token');
+
 const getMeInfo = async () => {
-  const token = new Cookies().get('token');
   const response = await fetch('/api/me', {
     method: 'GET',
     mode: 'cors',
@@ -13,7 +14,7 @@ const getMeInfo = async () => {
   return response.json();
 };
 
-const login = async ({email, password}: {email: string, password: string}) => {
+const login = async ({ email, password }: { email: string; password: string }) => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
@@ -33,15 +34,15 @@ const signup = async (formData: FormData) => {
   const form = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
-    "password-confirm": formData.get('password-confirm') as string,
+    'password-confirm': formData.get('password-confirm') as string,
     firstName: formData.get('firstName') as string,
     lastName: formData.get('lastName') as string,
   };
-  
-  if (form.password !== form["password-confirm"]) {
-    throw "Passwords do not match";
+
+  if (form.password !== form['password-confirm']) {
+    throw 'Passwords do not match';
   }
-  
+
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     body: JSON.stringify(form),
@@ -53,6 +54,25 @@ const signup = async (formData: FormData) => {
   const data = await response.json();
   if (data.error) {
     throw data.error;
+  }
+  return data;
+};
+
+export const giveUserRights = async (userId: string, right: string) => {
+  const response = await fetch(`/api/users/${userId}/rights`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ right }),
+  });
+  if (!response.ok) {
+    return {error: response.statusText};
+  }
+  const data = await response.json();
+  if (data.error) {
+    return {error: data.error};
   }
   return data;
 };
