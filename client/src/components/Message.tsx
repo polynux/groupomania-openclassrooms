@@ -34,7 +34,7 @@ const Message = ({ message }: any) => {
       toastError(error as string);
     },
   });
-  
+
   return (
     <>
       <div
@@ -45,7 +45,7 @@ const Message = ({ message }: any) => {
         <div className="flex flex-col gap-2 relative flex-grow">
           <div className="flex justify-between">
             {message.author && <User author={message.author} />}
-            {(me.data?.id === message.author.id) || (me.data?.role === 'ADMIN') ? (
+            {me.data?.id === message.author.id || me.data?.role === 'ADMIN' || me.data?.role === 'CREATOR' ? (
               <PopupMenu message={message} />
             ) : null}
           </div>
@@ -60,7 +60,14 @@ const Message = ({ message }: any) => {
               minute: 'numeric',
             })}
           </div>
-          <Like messageId={message.id} isLiked={(message.likes > 0 && message.likedBy.find((like: any) => like.userId === me.data?.id)) ? true : false} />
+          {me.data?.id === message.author.id ? null : (
+            <Like
+              messageId={message.id}
+              isLiked={
+                message.likes > 0 && message.likedBy.find((like: any) => like.userId === me.data?.id) ? true : false
+              }
+            />
+          )}
         </div>
       </div>
     </>

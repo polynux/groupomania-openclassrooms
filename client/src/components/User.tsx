@@ -59,7 +59,7 @@ const User = ({ author }: any) => {
   return (
     <div className="user">
       <button
-        className="text-red-light text-xl username"
+        className="text-red-light text-xl username text-left"
         onClick={() => setShow(true)}
         onContextMenu={(e) => {
           if (author.role === 'CREATOR') {

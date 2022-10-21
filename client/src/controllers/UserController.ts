@@ -1,8 +1,8 @@
 import { Cookies } from 'react-cookie';
 
-const token = new Cookies().get('token');
-
 const getMeInfo = async () => {
+  const token = new Cookies().get('token');
+
   const response = await fetch('/api/me', {
     method: 'GET',
     mode: 'cors',
@@ -11,10 +11,16 @@ const getMeInfo = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.json();
+  const data = await response.json();
+  if (data.error) {
+    throw data.error;
+  }
+  return data;
 };
 
 const login = async ({ email, password }: { email: string; password: string }) => {
+  const token = new Cookies().get('token');
+
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
@@ -31,6 +37,8 @@ const login = async ({ email, password }: { email: string; password: string }) =
 };
 
 const signup = async (formData: FormData) => {
+  const token = new Cookies().get('token');
+
   const form = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -59,6 +67,8 @@ const signup = async (formData: FormData) => {
 };
 
 export const giveUserRights = async (userId: string, role: string) => {
+  const token = new Cookies().get('token');
+  
   const response = await fetch(`/api/users/${userId}/roles`, {
     method: 'POST',
     mode: 'cors',

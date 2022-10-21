@@ -159,9 +159,9 @@ const likePost = async (id: number, userId: number): Promise<PrismaPost | Error>
   if (post === null) {
     return new Error('Post not found');
   }
-  // if (post.authorId === userId) {
-  //   return new Error('User cannot like their own post');
-  // }
+  if (post.authorId === userId) {
+    return new Error('User cannot like their own post');
+  }
   if (post.likedBy.some((like) => like.userId === userId)) {
     return new Error('Post already liked');
   }

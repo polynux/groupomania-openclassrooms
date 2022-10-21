@@ -2,9 +2,12 @@ import gravatar from 'gravatar';
 import { useState } from 'react';
 
 const Avatar = ({ user }: any) => {
+  // console.log(user);
+  
   const initials = user.firstName[0] + user.lastName[0];
   const gravatarUrl = gravatar.url(user.email, { s: '64', r: 'x', d: '404' }, true);
   const avatarUi = `https://ui-avatars.com/api/?name=${initials}&background=0D8ABC&color=fff&size=64`;
+  // const avatarUi = `https://ui-avatars.com/api/?name=GD&background=0D8ABC&color=fff&size=64`;
   const [avatar, setAvatar] = useState(avatarUi);
   const [firstLoad, setFirstLoad] = useState(true);
 

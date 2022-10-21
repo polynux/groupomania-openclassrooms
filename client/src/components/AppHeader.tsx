@@ -30,7 +30,7 @@ const AppHeader = () => {
         </div>
         <div className="right">
           <div className="flex items-center gap-2 sm:gap-4">
-            {meInfo.data && <Avatar user={meInfo.data} />}
+            {meInfo.data ? <Avatar user={meInfo.data} /> : null}
             <div className="app-header__user__name">
               {meInfo.data && <User author={meInfo.data} />}
             </div>
