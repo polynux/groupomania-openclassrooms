@@ -25,11 +25,15 @@
         },
         "typeRoots": [
             "src/types"
-        ],
+        ]
     },
     "ts-node": {
         "require": [
             "tsconfig-paths/register"
         ]
-    }
+    },
+    "exclude": [
+        "dist",
+        "client"
+    ]
 }
