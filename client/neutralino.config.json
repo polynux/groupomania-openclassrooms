@@ -29,7 +29,7 @@
       "fullScreen": false,
       "alwaysOnTop": false,
       "icon": "/dist-vite/icons/logo-only.png",
-      "enableInspector": true,
+      "enableInspector": false,
       "borderless": false,
       "maximize": true,
       "hidden": false,
