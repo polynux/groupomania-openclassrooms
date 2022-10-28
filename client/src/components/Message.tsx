@@ -5,18 +5,7 @@ import { getMeInfo } from '@controllers/UserController';
 import { useQuery } from '@tanstack/react-query';
 import { toastError } from '@controllers/Toasts';
 import User from './User';
-
-const Image = ({ image }: { image: string }) => {
-  if (image === '' || image === null) {
-    return null;
-  }
-
-  return (
-    <div className="flex justify-center ">
-      <img src={image} alt="image" className="w-full rounded-lg cursor-pointer" />
-    </div>
-  );
-};
+import Image from './Image';
 
 const Text = ({ text }: { text: string }) => {
   if (text === '') {
@@ -50,7 +39,7 @@ const Message = ({ message }: any) => {
             ) : null}
           </div>
           <Text text={message.content} />
-          <Image image={message.image} />
+          {message.image && <Image src={message.image} alt="image" className="w-fit rounded-lg cursor-pointer" />}
           <div className="text-grey-light date">
             {new Date(message.createdAt).toLocaleDateString(undefined, {
               year: 'numeric',
