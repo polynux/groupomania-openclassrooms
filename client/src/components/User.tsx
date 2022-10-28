@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import Modal from './Modal';
-import { getMeInfo, giveUserRights } from '@controllers/UserController';
+import { getMeInfo, giveUserRights, changeUserInfo } from '@controllers/UserController';
 import { toastError, toastSuccess } from '@controllers/Toasts';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -55,10 +55,19 @@ const User = ({ author }: any) => {
     queryClient.invalidateQueries(['messages']);
   }
 
-  const handleChange = (e: any) => {
+  const handleChangeInfo = (e: FormEvent) => {
     e.preventDefault();
-    toastSuccess('Infos personelles changées');
-    setShow(!show);
+    const data = new FormData(e.target as HTMLFormElement);
+    
+    changeUserInfo(author.id, data).then((response) => {
+      if (response.error) {
+        return toastError(response.error);
+      }
+      toastSuccess('Infos personelles changées');
+      queryClient.invalidateQueries(['messages']);
+    }).catch((error) => {
+      toastError(error.error);
+    });
   };
 
   return (
@@ -113,9 +122,13 @@ const User = ({ author }: any) => {
           ) : (
             <>
               <div className="text-2xl text-white">Modifier ses infos personnelles</div>
-              <form className="flex flex-col gap-2" onSubmit={handleChange}>
+              <div className="text-white">
+                {' '}
+                Tous les champs avec <span className="text-red">*</span> sont obligatoires
+              </div>
+              <form className="flex flex-col gap-2" onSubmit={handleChangeInfo}>
                 <label htmlFor="firstName" className="text-white">
-                  Prenom
+                  Prenom <span className="text-red">*</span>
                 </label>
                 <input
                   type="text"
@@ -123,9 +136,10 @@ const User = ({ author }: any) => {
                   id="firstName"
                   className="rounded-lg p-2"
                   defaultValue={author.firstName}
+                  required
                 />
                 <label htmlFor="lastName" className="text-white">
-                  Nom
+                  Nom <span className="text-red">*</span>
                 </label>
                 <input
                   type="text"
@@ -133,17 +147,26 @@ const User = ({ author }: any) => {
                   id="lastName"
                   className="rounded-lg p-2"
                   defaultValue={author.lastName}
+                  required
                 />
                 <label htmlFor="email" className="text-white">
-                  Adresse mail
+                  Adresse mail (ne sera pas modifié)
                 </label>
-                <input type="email" name="email" id="email" className="rounded-lg p-2" defaultValue={author.email} />
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="rounded-lg p-2"
+                  defaultValue={author.email}
+                  required
+                  disabled
+                />
                 <label htmlFor="password" className="text-white">
-                  Mot de passe
+                  Mot de passe <span className="text-red">*</span>
                 </label>
-                <input type="password" name="password" id="password" className="rounded-lg p-2" />
+                <input type="password" name="password" id="password" className="rounded-lg p-2" required />
                 <div>
-                  <div className='text-white text-xl'>Changer son mot de passe:</div>
+                  <div className="text-white text-xl">Changer son mot de passe:</div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="newPassword" className="text-white">
                       Nouveau mot de passe
@@ -156,12 +179,12 @@ const User = ({ author }: any) => {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <button
+                  <div
                     className="rounded-md border py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 bg-transparent hover:text-red"
-                    onClick={() => setShow(false)}
+                    onClick={(e) => setShow(false)}
                   >
                     Annuler
-                  </button>
+                  </div>
                   <button
                     type="submit"
                     className="rounded-md border border-red bg-red py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"

@@ -88,4 +88,52 @@ export const giveUserRights = async (userId: string, role: string) => {
   return data;
 };
 
+export const changeUserInfo = async (userId: string, formData: FormData) => {
+  const token = new Cookies().get('token');
+
+  const firstName = formData.get('firstName');
+    const lastName = formData.get('lastName');
+    const password = formData.get('password');
+
+    if (!firstName || !lastName || !password) {
+      throw {error: 'Les champs ne peuvent pas être vides'};
+    }
+
+    const newPassword = formData.get('newPassword');
+    const confirmPassword = formData.get('confirmPassword');    
+
+    if (newPassword) {
+      if (newPassword === password) {
+        throw {error: 'Le nouveau mot de passe doit être différent de l\'ancien'};
+      }
+      // regex to check if password is strong enough
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!regex.test(newPassword as string)) {
+        throw {error: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial'};
+      }
+
+      if (newPassword !== confirmPassword) {
+        throw {error: 'Les mots de passe ne correspondent pas'};
+      }
+    }
+
+  const response = await fetch(`/api/users/${userId}`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  if (!response.ok) {
+    return {error: response.statusText};
+  }
+  const data = await response.json();
+  if (data.error) {
+    return {error: data.error};
+  }
+  return data;
+};
+
+
 export { getMeInfo, login, signup };
