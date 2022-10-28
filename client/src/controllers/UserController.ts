@@ -122,8 +122,14 @@ export const changeUserInfo = async (userId: string, formData: FormData) => {
     mode: 'cors',
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
-    body: formData,
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      password,
+      newPassword,
+    }),
   });
   if (!response.ok) {
     return {error: response.statusText};

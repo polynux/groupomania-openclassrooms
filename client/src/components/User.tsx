@@ -65,6 +65,7 @@ const User = ({ author }: any) => {
       }
       toastSuccess('Infos personelles changées');
       queryClient.invalidateQueries(['messages']);
+      setShow(false);
     }).catch((error) => {
       toastError(error.error);
     });
