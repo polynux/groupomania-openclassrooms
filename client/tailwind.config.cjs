@@ -19,6 +19,22 @@ module.exports = {
       padding: {
         '2.5': '0.625rem',
       },
+      keyframes: {
+        'hide': {
+          '0%': { opacity: 1, display: 'block' },
+          '99%': { opacity: 0, display: 'block' },
+          '100%': { opacity: 0, display: 'none' },
+        },
+        'show': {
+          '0%': { opacity: 0, display: 'none' },
+          '1%': { opacity: 0, display: 'block' },
+          '100%': { opacity: 1, display: 'block' },
+        },
+      },
+      animation: {
+        'hide': 'hide 0.2s ease-in-out',
+        'show': 'show 0.2s ease-in-out',
+      },
     },
   },
   plugins: [],
