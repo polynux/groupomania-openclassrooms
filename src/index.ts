@@ -5,6 +5,7 @@ import { config as envConfig } from 'dotenv';
 import { deleteExpiredTokens } from '@/controller/AuthController';
 import ms from 'ms';
 import path from 'path';
+import fs from 'fs';
 
 envConfig();
 
@@ -42,7 +43,13 @@ app.use(json({ limit: '50mb' }));
 app.use(urlencoded({ extended: true, limit: '50mb' }));
 
 app.use(express.static(path.join(__dirname, '../public')));
-app.use(express.static(path.join(__dirname, '../client/dist')));
+
+// check if folder dist-vite exists
+if (fs.existsSync(path.join(__dirname, '../client/dist-vite'))) {
+  app.use(express.static(path.join(__dirname, '../client/dist-vite')));
+} else {
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+}
 
 app.use('/api', api);
 
