@@ -8,9 +8,13 @@
 
 3. Pour compiler les fichiers, éxecutez `npm run build`.
 
-4. Enfin, pour démarrer le serveur, éxecutez `npm start`.
+4. Il faut ensuite générer un fichier `.env` à la racine du projet. Vous pouvez vous aider du fichier `.env.example` pour cela. Pour la base de données, vous pouvez utiliser MySQL ou MariaDB. Si vous désirez utiliser mariadb ou mondodb par exemple, alors il faut aussi modifier le 'provider' dans le fichier `prisma/schema.prisma`.
 
-5. Pour accéder à l'application, rendez-vous sur `http://localhost:5173`.
+5. Puis générer la base de données en éxécutant `npm run db:build` et enfin synchroniser les tables avec `npm run db:push`.
+
+6. Enfin, pour démarrer le serveur, éxecutez `npm start`.
+
+7. Pour accéder à l'application, rendez-vous sur `http://localhost:5000`.
 
 ## Programme exécutable
 
