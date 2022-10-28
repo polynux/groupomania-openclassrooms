@@ -16,13 +16,12 @@ const User = ({ author }: any) => {
       toastError(error as string);
     },
   });
-  
+
   const queryClient = useQueryClient();
 
   function handleContextMenu(e: any) {
-
-    if (messageId!== '0' && e.target.closest('.message')?.id.slice(9) !== messageId) {
-      setPopupPos({ posX: 0, posY: 0});
+    if (messageId !== '0' && e.target.closest('.message')?.id.slice(9) !== messageId) {
+      setPopupPos({ posX: 0, posY: 0 });
       setMessageId('0');
       document.removeEventListener('contextmenu', handleContextMenu);
     }
@@ -44,7 +43,7 @@ const User = ({ author }: any) => {
     setMessageId(e.target.closest('.message').id.slice(9));
     setPopupPos({ posX: e.clientX, posY: e.clientY });
   };
-  
+
   async function changeRights() {
     setPopupPos({ posX: 0, posY: 0 });
     setMessageId('0');
@@ -55,6 +54,12 @@ const User = ({ author }: any) => {
     toastSuccess('User rights changed');
     queryClient.invalidateQueries(['messages']);
   }
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    toastSuccess('Infos personelles changées');
+    setShow(!show);
+  };
 
   return (
     <div className="user">
@@ -90,20 +95,83 @@ const User = ({ author }: any) => {
       )}
       <Modal show={show}>
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
-            <div className="text-2xl text-white">Info utilisateur</div>
-            <div className="text-white">Nom: {author.lastName}</div>
-            <div className="text-white">Prenom: {author.firstName}</div>
-            <div className="text-white">
-              Adresse mail: <a href={'mailto:' + author.email}>{author.email}</a>
+          {me.data?.id !== author.id ? (
+            <div className="flex flex-col gap-2">
+              <div className="text-2xl text-white">Info utilisateur</div>
+              <div className="text-white">Nom: {author.lastName}</div>
+              <div className="text-white">Prenom: {author.firstName}</div>
+              <div className="text-white">
+                Adresse mail: <a href={'mailto:' + author.email}>{author.email}</a>
+              </div>
+              <button
+                className="rounded-md border border-red bg-red py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"
+                onClick={() => setShow(false)}
+              >
+                Fermer
+              </button>
             </div>
-          </div>
-          <button
-            className="rounded-md border border-red bg-red py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"
-            onClick={() => setShow(false)}
-          >
-            Fermer
-          </button>
+          ) : (
+            <>
+              <div className="text-2xl text-white">Modifier ses infos personnelles</div>
+              <form className="flex flex-col gap-2" onSubmit={handleChange}>
+                <label htmlFor="firstName" className="text-white">
+                  Prenom
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  className="rounded-lg p-2"
+                  defaultValue={author.firstName}
+                />
+                <label htmlFor="lastName" className="text-white">
+                  Nom
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  className="rounded-lg p-2"
+                  defaultValue={author.lastName}
+                />
+                <label htmlFor="email" className="text-white">
+                  Adresse mail
+                </label>
+                <input type="email" name="email" id="email" className="rounded-lg p-2" defaultValue={author.email} />
+                <label htmlFor="password" className="text-white">
+                  Mot de passe
+                </label>
+                <input type="password" name="password" id="password" className="rounded-lg p-2" />
+                <div>
+                  <div className='text-white text-xl'>Changer son mot de passe:</div>
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="newPassword" className="text-white">
+                      Nouveau mot de passe
+                    </label>
+                    <input type="password" name="newPassword" id="newPassword" className="rounded-lg p-2" />
+                    <label htmlFor="confirmPassword" className="text-white">
+                      Confirmer le nouveau mot de passe
+                    </label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" className="rounded-lg p-2" />
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <button
+                    className="rounded-md border py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 bg-transparent hover:text-red"
+                    onClick={() => setShow(false)}
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    type="submit"
+                    className="rounded-md border border-red bg-red py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"
+                  >
+                    Modifier
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
         </div>
       </Modal>
     </div>
