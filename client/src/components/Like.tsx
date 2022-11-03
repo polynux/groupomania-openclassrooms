@@ -33,7 +33,6 @@ const Like = ({ message }: { message: any}) => {
         setLiked(false);
         toastSuccess('Message non aimé');
       }
-      toastSuccess(data.message);
     },
     onError: (error) => {
       toastError(error as string);
@@ -51,6 +50,7 @@ const Like = ({ message }: { message: any}) => {
       name="like"
     >
       <FaThumbsUp className={'fill-red-light text-xl  w-10 h-10 p-2.5' + (liked ? ' fill-red' : '')} />
+      {message.likes > 0 && <span className="absolute -top-2 right-0 text-white rounded-full bg-red w-5 h-5 text-xs text-center p-0">{message.likes}</span>}
       <span className="sr-only">Aimer</span>
     </button>
   );
