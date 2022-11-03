@@ -44,14 +44,14 @@ app.use(urlencoded({ extended: true, limit: '50mb' }));
 
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.use('/api', api);
+
 // check if folder dist-vite exists
 if (fs.existsSync(path.join(__dirname, '../client/dist-vite'))) {
   app.use(express.static(path.join(__dirname, '../client/dist-vite')));
 } else {
   app.use(express.static(path.join(__dirname, '../client/dist')));
 }
-
-app.use('/api', api);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
