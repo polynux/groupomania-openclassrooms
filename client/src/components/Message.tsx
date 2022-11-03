@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { toastError } from '@controllers/Toasts';
 import User from './User';
 import Image from './Image';
+import { useState } from 'react';
 
 const Text = ({ text }: { text: string }) => {
   if (text === '') {
@@ -52,14 +53,7 @@ const Message = ({ message }: any) => {
             </div>
             {message.edited && <div className="text-grey-light italic">Modifié</div>}
           </div>
-          {me.data?.id === message.author.id ? null : (
-            <Like
-              messageId={message.id}
-              isLiked={
-                message.likes > 0 && message.likedBy.find((like: any) => like.userId === me.data?.id) ? true : false
-              }
-            />
-          )}
+          {me.data?.id === message.author.id ? null : <Like message={message} />}
         </div>
       </div>
     </>

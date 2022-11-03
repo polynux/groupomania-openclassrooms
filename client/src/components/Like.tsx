@@ -1,15 +1,39 @@
 import { FaThumbsUp } from 'react-icons/fa';
 import { likePost, unlikePost } from '@controllers/LikeController';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toastError, toastSuccess } from '@controllers/Toasts';
+import { useEffect, useState } from 'react';
+import { getMeInfo } from '@controllers/UserController';
 
-const Like = ({ messageId, isLiked }: { messageId: string; isLiked: boolean }) => {
+const Like = ({ message }: { message: any}) => {
   const queryClient = useQueryClient();
+  const [liked, setLiked] = useState(false);
+  const me = useQuery(['me'], getMeInfo, {
+    onSuccess: (data) => {
+      return data;
+    },
+    onError: (error) => {
+      toastError(error as string);
+    },
+  });
 
-  const mutateLike = useMutation(isLiked ? unlikePost : likePost, {
+  useEffect(() => {
+    if (message.likedBy.some((like: any) => like.userId === me.data?.id)) {
+      setLiked(true);
+    }  
+  }, [message]);
+
+  const mutateLike = useMutation(liked ? unlikePost : likePost, {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['messages']);
-      isLiked ? toastSuccess('Message aimé') : null;
+      if (data.message === 'Post liked') {
+        setLiked(true);
+        toastSuccess('Message aimé');
+      } else {
+        setLiked(false);
+        toastSuccess('Message non aimé');
+      }
+      toastSuccess(data.message);
     },
     onError: (error) => {
       toastError(error as string);
@@ -17,7 +41,7 @@ const Like = ({ messageId, isLiked }: { messageId: string; isLiked: boolean }) =
   });
 
   const like = () => {
-    mutateLike.mutate(messageId);
+    mutateLike.mutate(message.id);
   };
 
   return (
@@ -26,7 +50,7 @@ const Like = ({ messageId, isLiked }: { messageId: string; isLiked: boolean }) =
       onClick={like}
       name="like"
     >
-      <FaThumbsUp className={'fill-red-light text-xl  w-10 h-10 p-2.5' + (isLiked ? ' fill-red' : '')} />
+      <FaThumbsUp className={'fill-red-light text-xl  w-10 h-10 p-2.5' + (liked ? ' fill-red' : '')} />
       <span className="sr-only">Aimer</span>
     </button>
   );
