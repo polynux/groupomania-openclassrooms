@@ -6,11 +6,34 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default () => {
   const navigate = useNavigate();
+
+  const checkPasswordComplexity = (password: string) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
+    return regex.test(password);
+  };
+
+  const checkEmailValidity = (email: string) => {
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return regex.test(email);
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.target as HTMLFormElement);
+    const email = data.get('email') as string;
+    const password = data.get('password') as string;
+    const passwordConfirmation = data.get('password-confirm') as string;
+    const firstName = data.get('firstName') as string;
+    const lastName = data.get('lastName') as string;
+
+    if (!/^[a-zA-Z]+$/.test(firstName)) return toastError('Le prénom ne doit contenir que des lettres.');
+    if (!/^[a-zA-Z]+$/.test(lastName)) return toastError('Le nom ne doit contenir que des lettres.');
+    if (!checkEmailValidity(email)) return toastError('L\'adresse e-mail n\'est pas valide.');
+    if (password !== passwordConfirmation) return toastError('Les mots de passe ne correspondent pas.');
+    if (!checkPasswordComplexity(password)) return toastError('Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.');
+
     signup(data).then((data: Token) => {
-      toastSuccess('You have successfully signed up!');
+      toastSuccess('Vous êtes inscrit !');
       navigate('/login');
     }).catch((err) => {
       toastError(err as string);
