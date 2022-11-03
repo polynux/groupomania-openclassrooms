@@ -46,12 +46,11 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/api', api);
 
-// check if folder dist-vite exists
-if (fs.existsSync(path.join(__dirname, '../client/dist-vite'))) {
-  app.use(express.static(path.join(__dirname, '../client/dist-vite')));
-} else {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-}
+const staticDist = fs.existsSync(path.join(__dirname, '../client/dist-vite')) ? express.static(path.join(__dirname, '../client/dist-vite')) : express.static(path.join(__dirname, '../client/dist'));
+
+app.use(staticDist);
+
+app.get('*', staticDist);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
