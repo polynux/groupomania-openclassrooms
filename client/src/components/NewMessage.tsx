@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import {newMessage} from '@controllers/MessageController';
+import { newMessage } from '@controllers/MessageController';
 
 const NewMessage = () => {
   const [message, setMessage] = useState('');
@@ -30,14 +30,26 @@ const NewMessage = () => {
 
   return (
     <footer className="new-message z-10 flex justify-center w-full">
-      <form onSubmit={handleSubmit} className="flex gap-2 bg-grey-dark rounded-xl w-full max-w-3xl p-2 mx-2 sm:p-3 md:mx-0 shadow-md shadow-grey-dark">
+      <form
+        onSubmit={handleSubmit}
+        className="flex gap-2 bg-grey-dark rounded-xl w-full max-w-3xl p-2 mx-2 sm:p-3 md:mx-0 shadow-md shadow-grey-dark"
+      >
         <div className="file">
           <label htmlFor="image" className="cursor-pointer block p-2">
             <div className="rounded-full text-grey-dark bg-red-light text-lg p-2">
               <FaPlus className="" />
             </div>
+            <p className="sr-only">Ajouter une image</p>
           </label>
-          <input type="file" name="image" id="image" accept="image/*" className="hidden" value={image} onChange={e => setImage(e.target.value)} />
+          <input
+            type="file"
+            name="image"
+            id="image"
+            accept="image/*"
+            className="hidden"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          />
         </div>
 
         <input
@@ -46,8 +58,8 @@ const NewMessage = () => {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Message"
           className="bg-grey-dark text-white rounded-xl p-2.5 w-full placeholder-red-light"
-          id='content'
-          name='content'
+          id="content"
+          name="content"
         />
         <button
           type="submit"

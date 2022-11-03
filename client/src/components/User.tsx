@@ -181,7 +181,7 @@ const User = ({ author }: any) => {
                 </div>
                 <div className="flex gap-4">
                   <div
-                    className="rounded-md border py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 bg-transparent hover:text-red"
+                    className="rounded-md border py-2 px-4 text-sm max-w-[100px] font-medium text-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 bg-transparent hover:text-red cursor-pointer"
                     onClick={(e) => setShow(false)}
                   >
                     Annuler
