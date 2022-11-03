@@ -48,9 +48,11 @@ app.use('/api', api);
 
 const staticDist = fs.existsSync(path.join(__dirname, '../client/dist-vite')) ? express.static(path.join(__dirname, '../client/dist-vite')) : express.static(path.join(__dirname, '../client/dist'));
 
-// app.use(staticDist);
+app.use(staticDist);
 
-app.get('/', staticDist);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
