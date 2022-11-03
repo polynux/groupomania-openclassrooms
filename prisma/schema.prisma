@@ -37,6 +37,7 @@ model Post {
   updatedAt DateTime @updatedAt
   likes     Int      @default(0)
   likedBy   Like[]
+  edited    Boolean  @default(false)
 }
 
 model Like {

@@ -66,6 +66,7 @@ const editPost = async (post: Post): Promise<PrismaPost | null | Error> => {
     data: {
       content: post.content,
       image: post.image,
+      edited: true,
     },
   });
 

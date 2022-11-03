@@ -10,17 +10,25 @@ const Avatar = ({ user }: any) => {
   const [firstLoad, setFirstLoad] = useState(true);
 
   if (firstLoad) {
-    fetch(gravatarUrl).then((response) => {
-      if (response.status === 200) {
-        setAvatar(gravatarUrl);
-      }
-      setFirstLoad(false);
-    });
+    fetch(gravatarUrl)
+      .then((response) => {
+        if (response.ok) {
+          setAvatar(gravatarUrl);
+        }
+        setFirstLoad(false);
+      })
+      .catch((e) => {
+        setFirstLoad(false);
+      });
   }
 
   return (
     <div className="avatar shrink-0">
-      <Image src={avatar} alt="avatar" className="rounded-full w-12 h-12 md:w-16 md:h-16 transition-all cursor-pointer" />
+      <Image
+        src={avatar}
+        alt="avatar"
+        className="rounded-full w-12 h-12 md:w-16 md:h-16 transition-all cursor-pointer"
+      />
     </div>
   );
 };

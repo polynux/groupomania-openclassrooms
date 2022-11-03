@@ -8,6 +8,7 @@ interface Post {
   authorId: number;
   likes?: number | undefined;
   likedBy?: Like[] | undefined;
+  edited?: boolean | undefined;
 }
 
 const Post: z.ZodType<Post> = z.object({
@@ -17,6 +18,7 @@ const Post: z.ZodType<Post> = z.object({
   authorId: z.number(),
   likes: z.number().optional(),
   likedBy: z.array(Like).optional(),
+  edited: z.boolean().optional(),
 });
 
 export { Post };

@@ -40,14 +40,17 @@ const Message = ({ message }: any) => {
           </div>
           <Text text={message.content} />
           {message.image && <Image src={message.image} alt="image" className="w-fit rounded-lg cursor-pointer" />}
-          <div className="text-grey-light date">
-            {new Date(message.createdAt).toLocaleDateString(undefined, {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-            })}
+          <div className="flex justify-between">
+            <div className="text-grey-light date">
+              {new Date(message.createdAt).toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+              })}
+            </div>
+            {message.edited && <div className="text-grey-light italic">Modifié</div>}
           </div>
           {me.data?.id === message.author.id ? null : (
             <Like
