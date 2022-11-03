@@ -2,6 +2,7 @@ import { PrismaClient, Post as PrismaPost, Like } from '@prisma/client';
 import { Post } from '@/models/PostModel';
 import { exclude } from '@/lib/utils';
 import { getUserById } from './UserController';
+import { deleteFile } from './FileController';
 
 const prisma = new PrismaClient();
 
@@ -94,6 +95,9 @@ const deletePost = async (id: number, userId: number): Promise<PrismaPost | Erro
   }
   if (post.authorId !== userId && user.role === 'USER') {
     return new Error('User is not the author of this post');
+  }
+  if (post.image) {
+    deleteFile(post.image);
   }
   return prisma.post.delete({
     where: {
