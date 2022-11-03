@@ -11,14 +11,15 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cookies, setCookie] = useCookies(['token']);
+  const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
 
   const mutation = useMutation(login, {
     onSuccess: (data: Token) => {
-      setCookie('token', data.token, { path: '/', expires: new Date(data.expiresAt) });
+      setCookie('token', data.token, { path: '/', expires: keepMeLoggedIn ? new Date(data.expiresAt) : undefined });
     },
     onError: (error) => {
       toastError(error as string);
-    }
+    },
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,6 +68,19 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+            </div>
+            <div className="flex items-center mb-2">
+                <input
+                  id="remember_me"
+                  name="remember_me"
+                  type="checkbox"
+                  className="h-4 w-4 text-red focus:ring-red border-gray-300 rounded"
+                  checked={keepMeLoggedIn}
+                  onChange={(e) => setKeepMeLoggedIn(e.target.checked)}
+                />
+                <label htmlFor="remember_me" className="ml-2 block text-sm text-white">
+                  Se souvenir de moi
+                </label>
             </div>
             <div>
               <button

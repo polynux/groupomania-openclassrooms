@@ -2,7 +2,7 @@ import { Token } from '@/types';
 import logo from '@assets/images/logo.svg';
 import { toastError, toastSuccess } from '@controllers/Toasts';
 import { signup } from '@controllers/UserController';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default () => {
   const navigate = useNavigate();
@@ -23,8 +23,8 @@ export default () => {
         <div>
           <img className="mx-auto h-20 pb-2 w-auto" src={logo} alt="Groupomania" />
         </div>
-        <div className="w-full max-w-md space-y-8 bg-grey rounded-lg p-5">
-          <form className="m-6 " action="#" method="POST" onSubmit={(e) => onSubmit(e)}>
+        <div className="w-full max-w-md space-y-4 bg-grey rounded-lg p-5">
+          <form className="m-6 mb-0" action="#" method="POST" onSubmit={(e) => onSubmit(e)}>
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="lastName" className="sr-only">
@@ -106,6 +106,11 @@ export default () => {
               </button>
             </div>
           </form>
+          <p className="text-center text-sm text-grey-dark">
+            <Link to="/login" className="font-medium text-red-light hover:text-red">
+              Retournez à la page de connexion
+            </Link>
+          </p>
         </div>
       </div>
     </>
