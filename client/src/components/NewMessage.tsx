@@ -36,10 +36,10 @@ const NewMessage = () => {
       >
         <div className="file">
           <label htmlFor="image" className="cursor-pointer block p-2">
-            <div className="rounded-full text-grey-dark bg-red-light text-lg p-2">
+            <span className="rounded-full text-grey-dark bg-red-light text-lg p-2 block">
               <FaPlus className="" />
-            </div>
-            <p className="sr-only">Ajouter une image</p>
+            </span>
+            <span className="sr-only">Ajouter une image</span>
           </label>
           <input
             type="file"
@@ -47,7 +47,7 @@ const NewMessage = () => {
             id="image"
             accept="image/*"
             className="hidden"
-            value={image}
+            {...(image !== '' && { value: image })}
             onChange={(e) => setImage(e.target.value)}
           />
         </div>
