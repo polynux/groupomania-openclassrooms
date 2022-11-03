@@ -39,7 +39,7 @@ const Image = ({ src, alt, className, onError }: { src: string; alt?: string; cl
       )}
       <img
         src={(error && onError === undefined) ? 'https://via.placeholder.com/150' : src}
-        alt={alt}
+        alt={(error && onError === undefined) ? 'Image absente' : alt}
         onError={handleError}
         className={className}
         onClick={onClick}

@@ -61,6 +61,9 @@ const NewMessage = () => {
           id="content"
           name="content"
         />
+        <label htmlFor="content" className="sr-only">
+          Message
+        </label>
         <button
           type="submit"
           className="rounded-md border border-red bg-red py-2 px-4 text-sm font-medium text-white hover:bg-white hover:text-red focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2"

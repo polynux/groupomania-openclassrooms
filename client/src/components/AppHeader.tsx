@@ -25,7 +25,7 @@ const AppHeader = () => {
     <header className="sticky top-0 z-100 w-full shadow-sm shadow-slate-900">
       <div className="min-h-80 flex items-center justify-between bg-grey-dark p-2">
         <div className="app-header__logo flex items-center gap-3">
-          <img src={logo} alt="logo" className="h-14" />
+          <img src={logo} alt="Logo du site" className="h-14" />
           <span className="w-0 transition-all duration-500 sm:w-full flex-shrink overflow-hidden text-red font-bold text-4xl">Groupomania</span>
         </div>
         <div className="right">
