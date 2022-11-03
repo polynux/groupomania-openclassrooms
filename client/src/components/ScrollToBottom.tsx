@@ -38,6 +38,7 @@ const ScrollToBottom = ({ children, className = '' }: { children: ReactNode; cla
       <button
         onClick={() => node?.scrollIntoView({ behavior: 'smooth' })}
         className={'absolute right-3 ' + (show ? 'animate-show bottom-3 block' : 'animate-hide hidden bottom-0 -mb-10')}
+        value="Scroll to bottom"
       >
         <div className="popup-btn cursor-pointer rounded-full shadow-lg shadow-slate-900 bg-grey-dark hover:bg-grey-light transition-all">
           <FaChevronDown className="fill-grey-light hover:fill-grey-dark transition-all text-xl w-10 h-10 p-2.5" />

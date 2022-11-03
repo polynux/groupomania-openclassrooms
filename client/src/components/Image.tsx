@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import Modal from './Modal';
 
-const Image = ({ src, alt, className }: { src: string; alt?: string; className?: string }) => {
+const Image = ({ src, alt, className, onError }: { src: string; alt?: string; className?: string, onError?: (err: any) => void }) => {
   const [error, setError] = useState(false);
   const [modal, setModal] = useState(false);
 
-  const onError = () => {
+  const handleError = (err: any) => {
     if (!error) {
       setError(true);
+    }
+    if (onError) {
+      onError(err);
     }
   };
 
@@ -26,18 +29,18 @@ const Image = ({ src, alt, className }: { src: string; alt?: string; className?:
               onClick={() => setModal(!modal)}
             />
             <img
-              src={error ? 'https://via.placeholder.com/150' : src}
+              src={(error && onError === undefined) ? 'https://via.placeholder.com/150' : src}
               alt={alt}
-              onError={onError}
+              onError={handleError}
               className={className}
             />
           </Modal>
         </div>
       )}
       <img
-        src={error ? 'https://via.placeholder.com/150' : src}
+        src={(error && onError === undefined) ? 'https://via.placeholder.com/150' : src}
         alt={alt}
-        onError={onError}
+        onError={handleError}
         className={className}
         onClick={onClick}
       />

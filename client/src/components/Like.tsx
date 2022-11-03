@@ -24,6 +24,7 @@ const Like = ({ messageId, isLiked }: { messageId: string; isLiked: boolean }) =
     <button
       className="absolute -bottom-10 right-0 mb-2 rounded-full bg-grey-dark shadow-lg shadow-slate-900 cursor-pointer"
       onClick={like}
+      value="like"
     >
       <FaThumbsUp className={'fill-red-light text-xl  w-10 h-10 p-2.5' + (isLiked ? ' fill-red' : '')} />
     </button>
