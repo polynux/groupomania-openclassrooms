@@ -1,9 +1,10 @@
 import { Cookies } from 'react-cookie';
+import { api } from '../main';
 
 const getMeInfo = async () => {
   const token = new Cookies().get('token');
 
-  const response = await fetch('/api/me', {
+  const response = await fetch(api + '/me', {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -21,7 +22,7 @@ const getMeInfo = async () => {
 const login = async ({ email, password }: { email: string; password: string }) => {
   const token = new Cookies().get('token');
 
-  const response = await fetch('/api/auth/login', {
+  const response = await fetch(api + '/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
     mode: 'cors',
@@ -51,7 +52,7 @@ const signup = async (formData: FormData) => {
     throw 'Passwords do not match';
   }
 
-  const response = await fetch('/api/auth/signup', {
+  const response = await fetch(api + '/auth/signup', {
     method: 'POST',
     body: JSON.stringify(form),
     mode: 'cors',
@@ -69,7 +70,7 @@ const signup = async (formData: FormData) => {
 export const giveUserRights = async (userId: string, role: string) => {
   const token = new Cookies().get('token');
   
-  const response = await fetch(`/api/users/${userId}/roles`, {
+  const response = await fetch(`${api}/users/${userId}/roles`, {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -117,7 +118,7 @@ export const changeUserInfo = async (userId: string, formData: FormData) => {
       }
     }
 
-  const response = await fetch(`/api/users/${userId}`, {
+  const response = await fetch(`${api}/users/${userId}`, {
     method: 'PUT',
     mode: 'cors',
     headers: {

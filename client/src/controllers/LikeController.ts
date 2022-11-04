@@ -1,8 +1,9 @@
 import { Cookies } from "react-cookie";
+import { api } from "../main";
 
 const likePost = async (id: string) => {
   const token = new Cookies().get('token');
-  const response = await fetch(`/api/posts/like/${id}`, {
+  const response = await fetch(`${api}/posts/like/${id}`, {
     method: 'PUT',
     mode: 'cors',
     headers: {
@@ -19,7 +20,7 @@ const likePost = async (id: string) => {
 
 const unlikePost = async (id: string) => {
   const token = new Cookies().get('token');
-  const response = await fetch(`/api/posts/unlike/${id}`, {
+  const response = await fetch(`${api}/posts/unlike/${id}`, {
     method: 'PUT',
     mode: 'cors',
     headers: {
