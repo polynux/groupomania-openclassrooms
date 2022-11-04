@@ -46,7 +46,7 @@ const Like = ({ message }: { message: any }) => {
 
   return (
     <button
-      className="absolute -bottom-10 right-0 mb-2 rounded-full bg-grey-dark shadow-lg shadow-slate-900 cursor-pointer"
+      className="absolute -bottom-10 -right-2 mb-2 rounded-full bg-grey-dark shadow-lg shadow-slate-900 cursor-pointer"
       onClick={like}
       name="like"
     >
