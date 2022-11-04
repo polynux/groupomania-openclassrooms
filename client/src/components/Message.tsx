@@ -41,7 +41,7 @@ const Message = ({ message }: any) => {
           </div>
           <Text text={message.content} />
           {message.image && <Image src={message.image} alt="image" className="w-fit rounded-lg cursor-pointer" />}
-          <div className="flex justify-between gap-3">
+          <div className="flex justify-between gap-3 flex-wrap">
             <div className="text-grey-light date">
               {new Date(message.createdAt).toLocaleDateString(undefined, {
                 year: 'numeric',
