@@ -5,7 +5,7 @@ import { toastError, toastSuccess } from '@controllers/Toasts';
 import { useEffect, useState } from 'react';
 import { getMeInfo } from '@controllers/UserController';
 
-const Like = ({ message }: { message: any}) => {
+const Like = ({ message }: { message: any }) => {
   const queryClient = useQueryClient();
   const [liked, setLiked] = useState(false);
   const me = useQuery(['me'], getMeInfo, {
@@ -20,7 +20,7 @@ const Like = ({ message }: { message: any}) => {
   useEffect(() => {
     if (message.likedBy.some((like: any) => like.userId === me.data?.id)) {
       setLiked(true);
-    }  
+    }
   }, [message]);
 
   const mutateLike = useMutation(liked ? unlikePost : likePost, {
@@ -28,10 +28,11 @@ const Like = ({ message }: { message: any}) => {
       queryClient.invalidateQueries(['messages']);
       if (data.message === 'Post liked') {
         setLiked(true);
-        toastSuccess('Message aimé');
-      } else {
+        toastSuccess('Message liké');
+      } else if (data.message === 'Post unliked') {
         setLiked(false);
-        toastSuccess('Message non aimé');
+      } else {
+        toastError(data.message);
       }
     },
     onError: (error) => {
@@ -50,7 +51,11 @@ const Like = ({ message }: { message: any}) => {
       name="like"
     >
       <FaThumbsUp className={'fill-red-light text-xl  w-10 h-10 p-2.5' + (liked ? ' fill-red' : '')} />
-      {message.likedBy.length > 0 && <span className="absolute -top-2 right-0 text-white rounded-full bg-red w-5 h-5 text-xs text-center p-0">{message.likedBy.length}</span>}
+      {message.likes > 0 && (
+        <span className="absolute -top-2 right-0 text-white rounded-full bg-red w-5 h-5 text-xs text-center p-0">
+          {message.likes}
+        </span>
+      )}
       <span className="sr-only">Aimer</span>
     </button>
   );

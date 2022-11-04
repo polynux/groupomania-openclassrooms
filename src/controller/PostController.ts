@@ -190,11 +190,6 @@ const likePost = async (id: number, userId: number): Promise<PrismaPost | Error>
       id,
     },
     data: {
-      likedBy: {
-        connect: {
-          id: newLike.id,
-        },
-      },
       likes: {
         increment: 1,
       },
