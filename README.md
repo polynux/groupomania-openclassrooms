@@ -18,15 +18,15 @@
 
 ## Programme exécutable
 
-1. Téléchargez le programme exécutable pour Windows en cliquant [ici](https://github.com/polynux/groupomania-openclassrooms/releases/download/1.0/groupomania-release-1.0.zip).
+1. Téléchargez le programme exécutable pour Windows en cliquant [ici](https://github.com/polynux/groupomania-openclassrooms/releases/download/1.1/groupomania-release-1.1.zip).
 
-2. Décompressez le fichier `groupomania-release-1.0.zip`.
+2. Décompressez le fichier `groupomania-release-1.1.zip`.
 
 3. Lancez le programme `groupomania.exe`.
 
 Si vous souhaitez compiler le programme exécutable, vous pouvez suivre les instructions suivantes :
 
-Executez `cd groupomania-openclassrooms/client` puis `npm install`, puis `npm run build:neu`.
+Executez `npm run build:neu`.
 
 Le programme exécutable se trouve dans le dossier `groupomania-openclassrooms/client/dist`.
 

@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch src -e js,ts,json --exec 'ts-node src/index.ts'",
-    "build": "cd client && npm run build",
+    "build": "npm run build:server && npm run build:client",
     "build:neu": "cd client && npm run build:neu",
     "build:server": "tsc && tsc-alias",
-    "start": "ts-node src/index.ts",
+    "build:client": "cd client && npm run build",
+    "start": "node dist/index.js",
     "db": "prisma studio",
     "db:build": "prisma generate",
     "db:push": "prisma db push",
