@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon --watch src -e js,ts,json --exec 'ts-node src/index.ts'",
     "build": "cd client && npm run build",
+    "build:neu": "cd client && npm run build:neu",
+    "build:server": "tsc && tsc-alias",
     "start": "ts-node src/index.ts",
     "db": "prisma studio",
     "db:build": "prisma generate",
