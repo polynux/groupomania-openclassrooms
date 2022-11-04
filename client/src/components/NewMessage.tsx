@@ -57,7 +57,7 @@ const NewMessage = () => {
         )}
         <form
           onSubmit={handleSubmit}
-          className="flex gap-2 flex-wrap bg-grey-dark rounded-xl p-2 mx-2 sm:p-3 md:mx-0 shadow-md shadow-grey-dark"
+          className="flex gap-2 bg-grey-dark rounded-xl p-2 mx-2 sm:p-3 md:mx-0 shadow-md shadow-grey-dark"
         >
           <div className="file">
             <label htmlFor="image" className="cursor-pointer block p-2">
