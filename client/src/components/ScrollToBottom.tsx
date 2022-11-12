@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
 const ScrollToBottom = ({ children, className = '' }: { children: ReactNode; className?: string }) => {
@@ -12,21 +12,37 @@ const ScrollToBottom = ({ children, className = '' }: { children: ReactNode; cla
     }
   }, []);
 
-  useEffect(() => {
-    const container = document.querySelector('main > div');
-    container?.addEventListener('scroll', () => {
-      if (node?.getBoundingClientRect() && node.getBoundingClientRect().y >= window.innerHeight) {
-        setShow(true);
-      } else {
-        setShow(false);
-      }
-    });
-    container?.addEventListener('DOMNodeInserted', (e) => {
-      if (!(e.target as Element).classList.contains('message')) return;
-      if (node?.getBoundingClientRect() && node.getBoundingClientRect().y >= window.innerHeight) {
-        node?.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
+  useMemo(() => {
+    if (node) {
+      const container = document.querySelector('main > div');
+      container?.addEventListener('DOMNodeInserted', (e) => {
+        if (!(e.target as Element).classList.contains('message')) return;
+        if (node?.getBoundingClientRect() && node.getBoundingClientRect().y >= window.innerHeight) {
+          node?.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+
+      container?.querySelectorAll('.message > div > img').forEach((img) => {
+        img.addEventListener('load', () => {
+          if (node?.getBoundingClientRect() && node.getBoundingClientRect().y >= window.innerHeight) {
+            node?.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setShow(false);
+          } else {
+            setShow(true);
+          }
+        },
+        { threshold: 1 }
+      );
+      observer.observe(node);
+      return () => observer.disconnect();
+    }
   }, [node]);
 
   return (
@@ -43,7 +59,7 @@ const ScrollToBottom = ({ children, className = '' }: { children: ReactNode; cla
         <span className="popup-btn block cursor-pointer rounded-full shadow-lg shadow-slate-900 bg-grey-dark hover:bg-grey-light transition-all">
           <FaChevronDown className="fill-grey-light hover:fill-grey-dark transition-all text-xl w-10 h-10 p-2.5" />
         </span>
-        <span className='sr-only'>Descendre en bas de la page</span>
+        <span className="sr-only">Descendre en bas de la page</span>
       </button>
     </>
   );

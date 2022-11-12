@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import { newMessage } from '@controllers/MessageController';
 
@@ -8,6 +8,7 @@ const NewMessage = () => {
   const [image, setImage] = useState('');
   const queryClient = useQueryClient();
   const [preview, setPreview] = useState('');
+  const imageRef = useRef<HTMLInputElement>(null);
 
   const handleImageSelect = (e: any) => {
     setImage(e.target.value);
@@ -37,6 +38,9 @@ const NewMessage = () => {
     setMessage('');
     setImage('');
     setPreview('');
+    if (imageRef.current) {
+      imageRef.current.value = '';
+    }
   };
 
   const handleRemoveImage = () => {
@@ -74,6 +78,7 @@ const NewMessage = () => {
               className="hidden"
               {...(image !== '' && { value: image })}
               onChange={handleImageSelect}
+              ref={imageRef}
             />
           </div>
 
