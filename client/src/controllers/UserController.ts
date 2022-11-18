@@ -132,9 +132,6 @@ export const changeUserInfo = async (userId: string, formData: FormData) => {
       newPassword,
     }),
   });
-  if (!response.ok) {
-    return {error: response.statusText};
-  }
   const data = await response.json();
   if (data.error) {
     return {error: data.error};
