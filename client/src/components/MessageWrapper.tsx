@@ -3,6 +3,7 @@ import { getMessages } from '@controllers/MessageController';
 import { useQuery } from '@tanstack/react-query';
 import { toastError } from '@controllers/Toasts';
 import ScrollToBottom from './ScrollToBottom';
+import { api } from '../main';
 
 const MessageWrapper = () => {
   const {
@@ -10,6 +11,14 @@ const MessageWrapper = () => {
     isLoading,
     isError,
   } = useQuery(['messages'], getMessages, {
+    onSuccess: (data) => {
+      data.map((message: any) => {
+        if (message.image) {
+          message.image = api.slice(0, -4) + message.image;
+        }
+      });
+      return data;
+    },
     onError: (error) => {
       toastError(error as string);
     },
